@@ -1,14 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.LoginController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="600.0" prefWidth="861.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+   <children>
+      <AnchorPane layoutX="13.0" layoutY="24.0" prefHeight="555.0" prefWidth="622.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="47.0">
+         <children>
+            <AnchorPane layoutX="348.0" layoutY="49.0" prefHeight="409.0" prefWidth="445.0" style="-fx-background-color: white; -fx-background-radius: 30;">
+               <children>
+                  <Label layoutX="82.0" layoutY="31.0" prefHeight="36.0" prefWidth="138.0" text="SIGN IN">
+                     <font>
+                        <Font name="System Bold" size="33.0" />
+                     </font></Label>
+                  <TextField fx:id="usernameField" layoutX="91.0" layoutY="122.0" prefHeight="53.0" prefWidth="313.0" promptText="Username" style="-fx-border-width: 0 0 2 0; -fx-border-color: grey; -fx-background-color: transparent;">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </TextField>
+                  <PasswordField fx:id="passwordField" layoutX="91.0" layoutY="189.0" prefHeight="53.0" prefWidth="313.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-width: 0 0 2 0;">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </PasswordField>
+                  <JFXButton fx:id="signinBtn" layoutX="159.0" layoutY="318.0" onAction="#handleSignin" prefHeight="49.0" prefWidth="168.0" style="-fx-background-color: orange; -fx-background-radius: 20;" text="SIGNIN" textFill="#f8f8f8">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXRadioButton fx:id="managerRB" layoutX="145.0" layoutY="272.0" text="Manager">
+                     <selectedColor>
+                        <Color red="1.0" green="0.6470588445663452" />
+                     </selectedColor></JFXRadioButton>
+                  <JFXRadioButton fx:id="cashierRB" layoutX="261.0" layoutY="272.0" text="Cashier">
+                     <selectedColor>
+                        <Color red="1.0" green="0.6470588445663452" />
+                     </selectedColor></JFXRadioButton>
+                  <ImageView fitHeight="26.0" fitWidth="28.0" layoutX="105.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/userIcon.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="26.0" fitWidth="28.0" layoutX="107.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/lockIcon.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="exitBtn" layoutX="410.0" layoutY="8.0" onMouseClicked="#handleExit" prefHeight="40.0" prefWidth="16.0" text="x" textFill="ORANGE">
+                     <font>
+                        <Font name="System Bold" size="28.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
+            <AnchorPane layoutX="14.0" layoutY="21.0" prefHeight="462.0" prefWidth="380.0" style="-fx-background-radius: 30;">
+               <children>
+                  <ImageView fx:id="leftPanelImage" fitHeight="462.0" fitWidth="380.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <image>
+                        <Image url="@../img/rightImage.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>
