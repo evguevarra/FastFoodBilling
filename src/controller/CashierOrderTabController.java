@@ -16,6 +16,10 @@ public class CashierOrderTabController {
     @FXML
     private FontAwesomeIconView removeButton;
 
+    public void setOrderItemName(String itemName){
+        orderItemName.setText(itemName);
+    }
+
 //    CashierOrderTabController(String itemName){
 //        orderItemName.setText(itemName);
 //    }

@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import main.MyListener;
 import model.Menu;
 
@@ -57,18 +58,37 @@ public class CashierMainController implements Initializable {
         Menu menuModel;
 
 
-        for(int i=0; i<20;i++){
-            menuModel = new Menu();
-            menuModel.setName("Deluxe Burger");
-            menuModel.setPrice(120.00);
-            menuModel.setImageSrc("/img/deluxe-burger.jpg");
-            menu.add(menuModel);
-        }
+
+        menuModel = new Menu();
+        menuModel.setName("Deluxe Burger");
+        menuModel.setPrice(120.00);
+        menuModel.setImageSrc("/img/deluxe-burger.jpg");
+        menu.add(menuModel);
+
+        menuModel = new Menu();
+        menuModel.setName("Cheese Burger");
+        menuModel.setPrice(50.00);
+        menuModel.setImageSrc("/img/cheese-burger.jpg");
+        menu.add(menuModel);
+
+        menuModel = new Menu();
+        menuModel.setName("Double Cheese Burger");
+        menuModel.setPrice(120.00);
+        menuModel.setImageSrc("/img/double-cheeseburger.jpg");
+        menu.add(menuModel);
+
         return menu;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        int column = 0;
+        int row = 1;
+
+        orderScroll.setStyle("-fx-background: transparent; -fx-background-color: transparent; ");
+
+
         menu.addAll(getData());
         if(menu.size()>0){
             myListener = new MyListener() {
@@ -80,16 +100,17 @@ public class CashierMainController implements Initializable {
                           AnchorPane aPane = fxmlLoader.load();
 
                           CashierOrderTabController orderController = fxmlLoader.getController();
+                          orderController.setOrderItemName(menu.getName());
 
                           orderContainer.getChildren().add(aPane);
+                          orderContainer.setSpacing(10);
                       }catch (IOException e) {
                           e.printStackTrace();
                       }
                 }
             };
         }
-        int column = 0;
-        int row = 1;
+
         try {
             for (int i=0; i<menu.size();i++){
                 FXMLLoader fxmlLoader = new FXMLLoader();
