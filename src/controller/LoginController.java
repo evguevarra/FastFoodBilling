@@ -4,12 +4,20 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.io.IOException;
 
 public class LoginController {
 
@@ -41,7 +49,29 @@ public class LoginController {
     }
 
     @FXML
-    void handleSignin(ActionEvent event) {
+    void handleSignin(ActionEvent event) throws IOException {
+
+//        Parent root = FXMLLoader.load(LoginController.class.getResource("/views/CashierMainUI.fxml"));
+//        Scene scene = new Scene(root);
+//        Stage stage = new Stage();
+//        stage.setTitle("Welcome to FastFood Billing System");
+//        stage.setScene(scene);
+//        stage.initModality(Modality.NONE);
+//        stage.show();
+//        Stage previousStage = (Stage) exitBtn.getScene().getWindow();
+//        previousStage.close();
+
+        Parent root = FXMLLoader.load(LoginController.class.getResource("/views/LoginLoadingUI.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        //stage.setTitle("Welcome to FastFood Billing System");
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initModality(Modality.NONE);
+        stage.show();
+        Stage previousStage = (Stage) exitBtn.getScene().getWindow();
+        previousStage.close();
+
 
     }
 

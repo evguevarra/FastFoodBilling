@@ -1,3 +1,4 @@
+package main;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -14,7 +15,7 @@ import java.io.IOException;
 public class App extends Application {
     Parent root;
     double xOffset, yOffset;
-
+    public static final String CURRENCY = "₱";
     @Override
     public void start(Stage stage) throws IOException {
         root = FXMLLoader.load(App.class.getResource("/views/LoginUI.fxml"));
