@@ -138,7 +138,7 @@
                               <Font name="System Bold" size="28.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="263.0" layoutY="15.0" promptText="Type here to search" style="-fx-background-radius: 30;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="8.0">
+                        <TextField layoutX="263.0" layoutY="15.0" promptText="Type here to search" style="-fx-background-radius: 30;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="370.0" AnchorPane.topAnchor="8.0">
                            <padding>
                               <Insets left="30.0" />
                            </padding>
@@ -163,6 +163,33 @@
                               </GridPane>
                            </content>
                         </ScrollPane>
+                        <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <children>
+                              <AnchorPane prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: ORANGE; -fx-background-radius: 20 20 0 0;">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="30.0" top="20.0" />
+                                 </VBox.margin>
+                                 <children>
+                                    <Label alignment="CENTER" layoutX="164.0" layoutY="22.0" text="Order List" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="15.0">
+                                       <font>
+                                          <Font name="System Bold" size="22.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <ScrollPane fx:id="orderScroll" prefHeight="371.0" prefWidth="355.0">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="30.0" top="10.0" />
+                                 </VBox.margin>
+                                 <content>
+                                    <VBox fx:id="orderContainer" />
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                </children>

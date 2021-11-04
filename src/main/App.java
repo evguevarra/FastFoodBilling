@@ -1,3 +1,4 @@
+package main;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;

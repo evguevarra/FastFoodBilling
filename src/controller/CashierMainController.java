@@ -10,6 +10,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import main.MyListener;
 import model.Menu;
 
 import java.io.IOException;
@@ -41,11 +43,19 @@ public class CashierMainController implements Initializable {
     @FXML
     private ScrollPane scrollPane;
 
+    @FXML
+    private VBox orderContainer;
+
+    @FXML
+    private ScrollPane orderScroll;
+
     private List<Menu> menu = new ArrayList<>();
+    private MyListener myListener;
 
     private List<Menu> getData(){
         List<Menu> menu = new ArrayList<>();
         Menu menuModel;
+
 
         for(int i=0; i<20;i++){
             menuModel = new Menu();
@@ -60,6 +70,24 @@ public class CashierMainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         menu.addAll(getData());
+        if(menu.size()>0){
+            myListener = new MyListener() {
+                @Override
+                public void onClickListener(Menu menu) {
+                      try {
+                          FXMLLoader fxmlLoader = new FXMLLoader();
+                          fxmlLoader.setLocation(getClass().getResource("/views/CashierOrderTabCard.fxml"));
+                          AnchorPane aPane = fxmlLoader.load();
+
+                          CashierOrderTabController orderController = fxmlLoader.getController();
+
+                          orderContainer.getChildren().add(aPane);
+                      }catch (IOException e) {
+                          e.printStackTrace();
+                      }
+                }
+            };
+        }
         int column = 0;
         int row = 1;
         try {
@@ -69,7 +97,7 @@ public class CashierMainController implements Initializable {
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 CashierMenuItemsController itemController = fxmlLoader.getController();
-                itemController.setData(menu.get(i));
+                itemController.setData(menu.get(i),myListener);
 
                 if(column == 3){
                     column = 0;

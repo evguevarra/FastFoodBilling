@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="60.0" prefWidth="300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CashierOrderTabController">
+   <children>
+      <FontAwesomeIconView fx:id="removeButton" fill="GREY" glyphName="TRASH" layoutX="255.0" layoutY="34.0" size="2.5em" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="12.0" />
+      <Spinner fx:id="qtySpinner" editable="true" layoutX="20.0" layoutY="18.0" prefHeight="25.0" prefWidth="60.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="18.0" />
+      <Label fx:id="orderItemName" layoutX="89.0" layoutY="16.0" prefHeight="17.0" prefWidth="156.0" text="Cheese Burger" textFill="GREY">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
