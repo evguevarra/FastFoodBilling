@@ -1,0 +1,7 @@
+.table-view{
+    -fx-background-radius:10;
+}
+
+.table-view .column-header-background{
+    -fx-background-color:orange;
+}

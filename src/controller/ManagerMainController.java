@@ -1,15 +1,25 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-public class ManagerMainController {
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-    private String currentTab;
+public class ManagerMainController implements Initializable {
+
+    private String currentTab = "menu";
+
+
 
     @FXML
     private Pane employeeBtn;
@@ -40,11 +50,15 @@ public class ManagerMainController {
 
     @FXML
     private Pane reportIndicator;
+
+    @FXML
+    private AnchorPane uiPane;
+
     @FXML
     void handleEmployeeBtn(MouseEvent event) {
         currentTab = "employee";
-        System.out.println(currentTab);
-
+        loadIndicator();
+        loadUI("ManagerEmployeeUI.fxml");
     }
 
     @FXML
@@ -52,7 +66,8 @@ public class ManagerMainController {
         currentTab = "menu";
 //        Image image = new Image(getClass().getResourceAsStream("/img/restaurant-highlight.png"));
 //        foodIconImage.setImage(image);
-        System.out.println(currentTab);
+        loadIndicator();
+        loadUI("ManagerMenuUi.fxml");
     }
 
     @FXML
@@ -60,7 +75,43 @@ public class ManagerMainController {
         currentTab = "report";
 //        Image image = new Image(getClass().getResourceAsStream("/img/restaurant-highlight.png"));
 //        foodIconImage.setImage(image);
-        System.out.println(currentTab);
+        loadIndicator();
+        loadUI("ManagerReportsUI.fxml");
     }
 
+    public void loadUI(String ui){
+        Parent root = null;
+        try{
+//            FXMLLoader fxmlLoader = new FXMLLoader();
+//            fxmlLoader.setLocation(getClass().getResource("/views/"+ui));
+//            AnchorPane aPane = fxmlLoader.load();
+            //uiPane.getChildren().add(aPane);
+            root = FXMLLoader.load(getClass().getResource("/views/" + ui));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        uiPane.getChildren().clear();
+        uiPane.getChildren().add(root);
+    }
+
+    public void loadIndicator(){
+        if(currentTab.equals("menu")){
+            menuIndicator.setStyle("-fx-background-color: #FFA500; ");
+            reportIndicator.setStyle("-fx-background-color: transparent; ");
+            employeeIndicator.setStyle("-fx-background-color: transparent; ");
+        }else if(currentTab.equals("report")){
+            menuIndicator.setStyle("-fx-background-color: transparent; ");
+            reportIndicator.setStyle("-fx-background-color: #FFA500; ");
+            employeeIndicator.setStyle("-fx-background-color: transparent; ");
+        }else if(currentTab.equals("employee")){
+            menuIndicator.setStyle("-fx-background-color: transparent; ");
+            reportIndicator.setStyle("-fx-background-color: transparent; ");
+            employeeIndicator.setStyle("-fx-background-color: #FFA500; ");
+        }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadIndicator();
+    }
 }

@@ -112,7 +112,7 @@
                                 </HBox>
                             </children>
                         </AnchorPane>
-                        <AnchorPane prefHeight="671.0" prefWidth="1095.0">
+                        <AnchorPane fx:id="uiPane" prefHeight="671.0" prefWidth="1095.0">
                             <VBox.margin>
                                 <Insets left="30.0" right="30.0" top="5.0" />
                             </VBox.margin>

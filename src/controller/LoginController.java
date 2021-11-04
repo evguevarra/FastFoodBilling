@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -57,6 +54,26 @@ public class LoginController implements Initializable {
     @FXML
     void handleSignin(ActionEvent event) throws IOException {
 
+        if(managerRB.isSelected()){
+            empPosition = "manager";
+            loginSuccess();
+            // System.out.println(empPosition);
+        }else if(cashierRB.isSelected()){
+            empPosition = "cashier";
+            loginSuccess();
+            // System.out.println(empPosition);
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No Employee Position Selected");
+            alert.setContentText("Please select your position!");
+            alert.showAndWait();
+        }
+
+
+    }
+
+    public void loginSuccess() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/views/LoginLoadingUI.fxml"));
         Parent root = fxmlLoader.load();
@@ -74,18 +91,17 @@ public class LoginController implements Initializable {
         Stage previousStage = (Stage) exitBtn.getScene().getWindow();
         previousStage.close();
 
-
     }
 
-    public void getEmployeePosition(ActionEvent event){
-        if(managerRB.isSelected()){
-            empPosition = "manager";
-           // System.out.println(empPosition);
-        }else if(cashierRB.isSelected()){
-            empPosition = "cashier";
-           // System.out.println(empPosition);
-        }
-    }
+//    public void getEmployeePosition(ActionEvent event){
+//        if(managerRB.isSelected()){
+//            empPosition = "manager";
+//           // System.out.println(empPosition);
+//        }else if(cashierRB.isSelected()){
+//            empPosition = "cashier";
+//           // System.out.println(empPosition);
+//        }
+//    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

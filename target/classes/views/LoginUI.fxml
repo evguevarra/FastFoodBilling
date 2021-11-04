@@ -46,11 +46,11 @@
                         <Font name="System Bold" size="19.0" />
                      </font>
                   </JFXButton>
-                  <JFXRadioButton fx:id="managerRB" layoutX="145.0" layoutY="272.0" onAction="#getEmployeePosition" text="Manager">
+                  <JFXRadioButton fx:id="managerRB" layoutX="145.0" layoutY="272.0" text="Manager">
                      <selectedColor>
                         <Color red="1.0" green="0.6470588445663452" />
                      </selectedColor></JFXRadioButton>
-                  <JFXRadioButton fx:id="cashierRB" layoutX="261.0" layoutY="272.0" onAction="#getEmployeePosition" text="Cashier">
+                  <JFXRadioButton fx:id="cashierRB" layoutX="261.0" layoutY="272.0" text="Cashier">
                      <selectedColor>
                         <Color red="1.0" green="0.6470588445663452" />
                      </selectedColor></JFXRadioButton>
