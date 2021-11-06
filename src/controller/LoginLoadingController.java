@@ -71,6 +71,7 @@ public class LoginLoadingController implements Initializable {
                         Stage stage = new Stage();
                         stage.setTitle("Welcome to FastFood Billing System");
                         stage.setScene(scene);
+                        stage.setMaximized(true);
                         stage.initModality(Modality.NONE);
                         stage.show();
                         stage.centerOnScreen();

@@ -3,6 +3,7 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -80,18 +81,19 @@ public class ManagerMainController implements Initializable {
     }
 
     public void loadUI(String ui){
-        Parent root = null;
+        //Parent root = null;
+        Node node = null;
         try{
 //            FXMLLoader fxmlLoader = new FXMLLoader();
 //            fxmlLoader.setLocation(getClass().getResource("/views/"+ui));
 //            AnchorPane aPane = fxmlLoader.load();
             //uiPane.getChildren().add(aPane);
-            root = FXMLLoader.load(getClass().getResource("/views/" + ui));
+            node = FXMLLoader.load(getClass().getResource("/views/" + ui));
         }catch (IOException e){
             e.printStackTrace();
         }
         uiPane.getChildren().clear();
-        uiPane.getChildren().add(root);
+        uiPane.getChildren().setAll(node);
     }
 
     public void loadIndicator(){
