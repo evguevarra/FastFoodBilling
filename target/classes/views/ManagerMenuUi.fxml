@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -14,42 +13,42 @@
 
 <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManagerMenuController">
    <children>
-      <HBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox HBox.hgrow="ALWAYS">
                <children>
                   <HBox prefHeight="47.0" spacing="10.0">
                      <children>
-                        <Label text="Foods" textFill="GREY">
+                        <Label fx:id="foodBtn" onMouseClicked="#handleFood" text="Foods" textFill="GREY">
                            <font>
-                              <Font name="System Bold" size="20.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                            <HBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
+                              <Insets bottom="8.0" top="8.0" />
                            </HBox.margin>
                         </Label>
-                        <Label text="Beverages" textFill="GREY">
+                        <Label fx:id="beverageBtn" onMouseClicked="#handleBeverage" text="Beverages" textFill="GREY">
                            <font>
-                              <Font name="System Bold" size="20.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                            <HBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
+                              <Insets bottom="8.0" top="8.0" />
                            </HBox.margin>
                         </Label>
-                        <Label text="Desserts" textFill="GREY">
+                        <Label fx:id="dessertBtn" onMouseClicked="#handleDessert" text="Desserts" textFill="GREY">
                            <font>
-                              <Font name="System Bold" size="20.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                            <HBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
+                              <Insets bottom="8.0" top="8.0" />
                            </HBox.margin>
                         </Label>
-                        <Label text="Add-ons" textFill="GREY">
+                        <Label fx:id="addOnsBtn" onMouseClicked="#handleAddons" text="Add-ons" textFill="GREY" HBox.hgrow="ALWAYS">
                            <font>
-                              <Font name="System Bold" size="20.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                            <HBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
+                              <Insets bottom="8.0" top="8.0" />
                            </HBox.margin>
                         </Label>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -61,12 +60,12 @@
                               </TextField>
                            </children>
                         </AnchorPane>
-                        <JFXButton prefWidth="70.0" style="-fx-background-color: orange;" text="Add Item" textFill="WHITE">
+                        <JFXButton fx:id="addItemBtn" onAction="#handleAddItemBtn" prefWidth="70.0" style="-fx-background-color: orange;" text="Add Item" textFill="WHITE">
                            <HBox.margin>
                               <Insets top="8.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton prefWidth="70.0" style="-fx-background-color: orange;" text="Refresh" textFill="WHITE">
+                        <JFXButton fx:id="refreshBtn" onAction="#handleRefreshBtn" prefWidth="70.0" style="-fx-background-color: orange;" text="Refresh" textFill="WHITE">
                            <HBox.margin>
                               <Insets right="5.0" top="8.0" />
                            </HBox.margin>
@@ -90,7 +89,7 @@
                <children>
                   <AnchorPane style="-fx-background-color: ORANGE; -fx-background-radius: 20 20 0 0;">
                      <children>
-                        <Label alignment="CENTER" layoutX="164.0" layoutY="22.0" text="Order List" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="15.0">
+                        <Label alignment="CENTER" layoutX="164.0" layoutY="22.0" text="Menu Item" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="15.0">
                            <font>
                               <Font name="System Bold" size="22.0" />
                            </font>
@@ -100,14 +99,7 @@
                         <Insets top="65.0" />
                      </VBox.margin>
                   </AnchorPane>
-                  <ScrollPane fx:id="orderScroll" prefHeight="371.0" prefWidth="355.0" VBox.vgrow="ALWAYS">
-                     <content>
-                        <VBox fx:id="orderContainer" />
-                     </content>
-                     <VBox.margin>
-                        <Insets bottom="20.0" />
-                     </VBox.margin>
-                  </ScrollPane>
+                  <VBox fx:id="orderContainer" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </children>

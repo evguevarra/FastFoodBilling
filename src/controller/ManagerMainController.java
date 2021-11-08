@@ -114,6 +114,8 @@ public class ManagerMainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         loadIndicator();
+        loadUI("ManagerMenuUi.fxml");
     }
 }
