@@ -20,12 +20,18 @@ import repositories.DatabaseConnection;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     private String empPosition;
+
+    Connection connectDB = DatabaseConnection.connect();
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+
     @FXML
     private JFXRadioButton cashierRB;
 
@@ -88,18 +94,19 @@ public class LoginController implements Initializable {
     }
 
     public void authCheck(){
-        DatabaseConnection connection = new DatabaseConnection();
-        Connection connectDB = connection.getConnection();
+        //DatabaseConnection connection = new DatabaseConnection();
 
-        String verifyLogin = "SELECT count(1) FROM users WHERE userID = '" + usernameField.getText() + "' " +
-                "AND password ='" + passwordField.getText() + "' AND position ='" + empPosition + "'";
+
+
 
         try{
-            Statement statement = connectDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(verifyLogin);
+            String verifyLogin = "SELECT count(1) FROM employee WHERE employeeID = '" + usernameField.getText() + "' " +
+                    "AND password ='" + passwordField.getText() + "' AND position ='" + empPosition + "'";
+            preparedStatement = connectDB.prepareStatement(verifyLogin);
+            resultSet = preparedStatement.executeQuery();
 
-            while(queryResult.next()){
-                if(queryResult.getInt(1) == 1){
+            while(resultSet.next()){
+                if(resultSet.getInt(1) == 1){
                     loginMessage.setText("");
                     loginSuccess();
                 }else{
@@ -109,6 +116,13 @@ public class LoginController implements Initializable {
 
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            try {
+                resultSet.close();
+                preparedStatement.close();
+            }catch(Exception e) {
+
+            }
         }
     }
 
