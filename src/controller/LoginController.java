@@ -67,16 +67,10 @@ public class LoginController implements Initializable {
     @FXML
     void handleSignin(ActionEvent event) throws IOException {
 
-
-
         if(managerRB.isSelected()){
             empPosition = "manager";
-            //loginSuccess();
-            // System.out.println(empPosition);
         }else if(cashierRB.isSelected()){
             empPosition = "cashier";
-            //loginSuccess();
-            // System.out.println(empPosition);
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -94,10 +88,6 @@ public class LoginController implements Initializable {
     }
 
     public void authCheck(){
-        //DatabaseConnection connection = new DatabaseConnection();
-
-
-
 
         try{
             String verifyLogin = "SELECT count(1) FROM employee WHERE employeeID = '" + usernameField.getText() + "' " +
@@ -145,8 +135,6 @@ public class LoginController implements Initializable {
         previousStage.close();
 
     }
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -50,11 +50,13 @@
                         </HBox>
                         <TableView fx:id="empTable" prefHeight="200.0" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn fx:id="menuId" prefWidth="100.0" text="Employee ID" />
-                                <TableColumn fx:id="menuName" minWidth="40.0" prefWidth="200.0" text="Last Name" />
-                                <TableColumn fx:id="menuPrice" prefWidth="200.0" text="First Name" />
-                                <TableColumn fx:id="menuCategory" prefWidth="150.0" text="Gender" />
-                        <TableColumn prefWidth="150.0" text="Position" />
+                                <TableColumn fx:id="empID" prefWidth="75.0" text="Employee ID" />
+                                <TableColumn fx:id="empLastname" minWidth="40.0" prefWidth="200.0" text="Last Name" />
+                                <TableColumn fx:id="empFirstname" prefWidth="200.0" text="First Name" />
+                                <TableColumn fx:id="empGender" prefWidth="75.0" text="Gender" />
+                        <TableColumn fx:id="empBirthdate" prefWidth="100.0" text="Birthdate" />
+                        <TableColumn fx:id="empContact" prefWidth="150.0" text="Contact No." />
+                        <TableColumn fx:id="empPosition" prefWidth="100.0" text="Position" />
                             </columns>
                             <VBox.margin>
                                 <Insets bottom="20.0" top="20.0" />
