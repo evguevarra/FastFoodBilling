@@ -69,6 +69,7 @@
                         <Font name="System Bold" size="28.0" />
                      </font>
                   </Label>
+                  <Label fx:id="loginMessage" alignment="CENTER" layoutX="209.0" layoutY="378.0" textFill="#ee0000" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="80.0" />
                </children></AnchorPane>
             <AnchorPane layoutX="14.0" layoutY="21.0" prefHeight="462.0" prefWidth="380.0" style="-fx-background-radius: 30;">
                <children>

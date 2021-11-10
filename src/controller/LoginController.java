@@ -15,9 +15,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import repositories.DatabaseConnection;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -30,6 +34,9 @@ public class LoginController implements Initializable {
 
     @FXML
     private ImageView leftPanelImage;
+
+    @FXML
+    private Label loginMessage;
 
     @FXML
     private JFXRadioButton managerRB;
@@ -54,13 +61,15 @@ public class LoginController implements Initializable {
     @FXML
     void handleSignin(ActionEvent event) throws IOException {
 
+
+
         if(managerRB.isSelected()){
             empPosition = "manager";
-            loginSuccess();
+            //loginSuccess();
             // System.out.println(empPosition);
         }else if(cashierRB.isSelected()){
             empPosition = "cashier";
-            loginSuccess();
+            //loginSuccess();
             // System.out.println(empPosition);
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -69,8 +78,38 @@ public class LoginController implements Initializable {
             alert.setContentText("Please select your position!");
             alert.showAndWait();
         }
+        if(usernameField.getText().isBlank() == false && passwordField.getText().isBlank()== false) {
+            loginMessage.setText("");
+            authCheck();
+        }else {
+            loginMessage.setText("Please enter username and password!");
+        }
 
+    }
 
+    public void authCheck(){
+        DatabaseConnection connection = new DatabaseConnection();
+        Connection connectDB = connection.getConnection();
+
+        String verifyLogin = "SELECT count(1) FROM users WHERE userID = '" + usernameField.getText() + "' " +
+                "AND password ='" + passwordField.getText() + "' AND position ='" + empPosition + "'";
+
+        try{
+            Statement statement = connectDB.createStatement();
+            ResultSet queryResult = statement.executeQuery(verifyLogin);
+
+            while(queryResult.next()){
+                if(queryResult.getInt(1) == 1){
+                    loginMessage.setText("");
+                    loginSuccess();
+                }else{
+                    loginMessage.setText("Login Failed! Wrong username and password");
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void loginSuccess() throws IOException {
@@ -93,15 +132,7 @@ public class LoginController implements Initializable {
 
     }
 
-//    public void getEmployeePosition(ActionEvent event){
-//        if(managerRB.isSelected()){
-//            empPosition = "manager";
-//           // System.out.println(empPosition);
-//        }else if(cashierRB.isSelected()){
-//            empPosition = "cashier";
-//           // System.out.println(empPosition);
-//        }
-//    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
