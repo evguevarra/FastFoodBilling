@@ -1,15 +1,17 @@
 package model;
 
+import javafx.scene.image.Image;
+
 public class Menu {
 
 
     private int id;
     private String name;
-    private String imageSrc;
+    private Image imageSrc;
     private double price;
     private String category;
 
-    public Menu(int id,String name,String imageSrc, double price,String category){
+    public Menu(int id,String name,Image imageSrc, double price,String category){
         this.id = id;
         this.name = name;
         this.imageSrc = imageSrc;
@@ -23,6 +25,19 @@ public class Menu {
         this.price = price;
         this.category =category;
     }
+    public Menu(String name, double price,String category,Image imageSrc){
+        this.name = name;
+        this.price = price;
+        this.category =category;
+        this.imageSrc = imageSrc;
+    }
+    public Menu(){
+        this.name = name;
+        this.price = price;
+        this.category =category;
+        this.imageSrc = imageSrc;
+    }
+
 
     public String getCategory() {
         return category;
@@ -48,11 +63,11 @@ public class Menu {
         this.name = name;
     }
 
-    public String getImageSrc() {
+    public Image getImageSrc() {
         return imageSrc;
     }
 
-    public void setImageSrc(String imageSrc) {
+    public void setImageSrc(Image imageSrc) {
         this.imageSrc = imageSrc;
     }
 

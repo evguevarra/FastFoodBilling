@@ -17,6 +17,7 @@ import model.Menu;
 
 import java.awt.desktop.AppReopenedListener;
 import java.awt.event.MouseEvent;
+import java.io.ByteArrayInputStream;
 
 public class CashierMenuItemsController {
 
@@ -50,8 +51,8 @@ public class CashierMenuItemsController {
         this.myListener = myListener;
         menuItemName.setText(menu.getName());
         menuItemPrice.setText("₱"+menu.getPrice());
-        Image image = new Image(getClass().getResourceAsStream(menu.getImageSrc()));
-        menuImage.setImage(image);
+        //Image image = new Image(getClass().getResourceAsStream(menu.getImageSrc()));
+        menuImage.setImage(menu.getImageSrc());
 
         Rectangle clip = new Rectangle();
         clip.setWidth(200.0f);

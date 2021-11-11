@@ -1,11 +1,14 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -14,9 +17,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import main.MyListener;
 import model.Menu;
+import model.User;
+import repositories.DatabaseConnection;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -50,12 +56,90 @@ public class CashierMainController implements Initializable {
     @FXML
     private ScrollPane orderScroll;
 
-    private List<Menu> menu = new ArrayList<>();
+    //private List<Menu> menu = new ArrayList<>();
     private MyListener myListener;
+    private ObservableList<Menu> menu = FXCollections.observableArrayList();
 
-    private List<Menu> getData(){
-        List<Menu> menu = new ArrayList<>();
+
+
+    private ObservableList<Menu> getData(){
+        ObservableList<Menu> menu = FXCollections.observableArrayList();
         Menu menuModel;
+
+
+        try {
+            Connection connection = DatabaseConnection.connect();
+            String query = "SELECT menuName,menuPrice,menuCategory,menuImage  FROM menu ";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+
+                menuModel = new Menu();
+                menuModel.setName(resultSet.getString("menuName"));
+                menuModel.setPrice(resultSet.getDouble("menuPrice"));
+
+                InputStream input = resultSet.getBinaryStream("menuImage");
+                if(input != null) {
+                    InputStreamReader inputReader = new InputStreamReader(input);
+                    if (inputReader.ready()) {
+                        File tempFile = new File(menuModel.getName() + ".jpg");
+
+                        FileOutputStream fos = new FileOutputStream(tempFile);
+                        byte[] buffer = new byte[1024];
+                        while (input.read(buffer) > 0) {
+                            fos.write(buffer);
+                        }
+                        Image image = new Image(tempFile.toURI().toURL().toString());
+                        menuModel.setImageSrc(image);
+                    }
+
+
+                }
+
+                menu.add(menuModel);
+//               String mName = resultSet.getString("menuName");
+//               double mPrice = resultSet.getDouble("menuPrice");
+//               String mCategory = resultSet.getString("menuCategory");
+//
+//
+//               InputStream image = resultSet.getBinaryStream("menuImage");
+//               OutputStream outImg = new FileOutputStream(new File(mName+".jpg"));
+//               byte[] buffer = new byte[1024];
+//               int size =0;
+//               while(image.read(buffer) > 0){
+//                        outImg.write(buffer);
+//               }
+//               image.close();
+//               outImg.close();
+
+//               String mImage = mName+".jpg";
+//
+
+//               InputStreamReader inputReader = new InputStreamReader(image);
+
+//               if(inputReader.ready())
+//                {
+//                    File tempFile = new File(mName+".jpg");
+//
+//                    FileOutputStream fos = new FileOutputStream(tempFile);
+//                    byte[] buffer = new byte[1024];
+//                    while(image.read(buffer) > 0){
+//                        fos.write(buffer);
+//                    }
+//                    mImage =tempFile.toURI().toURL().toString();
+//
+//                    //right here is where you want to set your imageView with the image.
+//                }
+                //Image mImage = new Image(new ByteArrayInputStream(image));
+
+
+                //menu.add(new Menu(mName,mPrice,mCategory,image));
+            }
+
+        } catch (SQLException | IOException e ) {
+            e.printStackTrace();
+        }
 
 
 
