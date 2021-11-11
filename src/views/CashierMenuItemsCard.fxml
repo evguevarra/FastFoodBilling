@@ -14,7 +14,7 @@
             <Image url="@../img/cheese-burger.jpg" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="14.0" opacity="0.76" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 20;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+      <AnchorPane fx:id="nameContainer" layoutX="14.0" opacity="0.76" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 20;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
          <children>
             <Label fx:id="menuItemName" alignment="CENTER" layoutX="84.0" layoutY="19.0" text="Cheese Burger" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                <font>

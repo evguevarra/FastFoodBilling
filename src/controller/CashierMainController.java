@@ -1,5 +1,6 @@
 package controller;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import main.MyListener;
 import model.Menu;
 import model.User;
@@ -81,6 +83,19 @@ public class CashierMainController implements Initializable {
     @FXML
     private ScrollPane orderScroll;
 
+    @FXML
+    private JFXButton payBtn;
+
+    @FXML
+    private Label subtotalValue;
+
+    @FXML
+    private Label totalValue;
+
+    @FXML
+    private Label logoutBtn;
+
+
     private MyListener myListener;
 
     private ObservableList<Menu> menu = FXCollections.observableArrayList();
@@ -115,6 +130,12 @@ public class CashierMainController implements Initializable {
         loadIndicator();
         gridPane.getChildren().clear();
         loadMenuData();
+    }
+
+    @FXML
+    void handleLogoutBtn(MouseEvent event) {
+        Stage stage = (Stage) logoutBtn.getScene().getWindow();
+        stage.close();
     }
 
     public void loadIndicator(){
@@ -239,6 +260,7 @@ public class CashierMainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //payBtn.setGraphic();
 
         loadIndicator();
         orderScroll.setStyle("-fx-background: transparent; -fx-background-color: transparent; ");

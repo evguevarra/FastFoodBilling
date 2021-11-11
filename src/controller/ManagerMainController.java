@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,6 +57,9 @@ public class ManagerMainController implements Initializable {
     private AnchorPane uiPane;
 
     @FXML
+    private Label logoutBtn;
+
+    @FXML
     void handleEmployeeBtn(MouseEvent event) {
         currentTab = "employee";
         loadIndicator();
@@ -65,8 +69,6 @@ public class ManagerMainController implements Initializable {
     @FXML
     void handleMenuBtn(MouseEvent event) {
         currentTab = "menu";
-//        Image image = new Image(getClass().getResourceAsStream("/img/restaurant-highlight.png"));
-//        foodIconImage.setImage(image);
         loadIndicator();
         loadUI("ManagerMenuUi.fxml");
     }
@@ -74,20 +76,19 @@ public class ManagerMainController implements Initializable {
     @FXML
     void handleReportsBtn(MouseEvent event) {
         currentTab = "report";
-//        Image image = new Image(getClass().getResourceAsStream("/img/restaurant-highlight.png"));
-//        foodIconImage.setImage(image);
         loadIndicator();
         loadUI("ManagerReportsUI.fxml");
     }
 
+    @FXML
+    void handleLogoutBtn(MouseEvent event) {
+        Stage stage = (Stage) logoutBtn.getScene().getWindow();
+        stage.close();
+    }
+
     public void loadUI(String ui){
-        //Parent root = null;
         Node node = null;
         try{
-//            FXMLLoader fxmlLoader = new FXMLLoader();
-//            fxmlLoader.setLocation(getClass().getResource("/views/"+ui));
-//            AnchorPane aPane = fxmlLoader.load();
-            //uiPane.getChildren().add(aPane);
             node = FXMLLoader.load(getClass().getResource("/views/" + ui));
         }catch (IOException e){
             e.printStackTrace();

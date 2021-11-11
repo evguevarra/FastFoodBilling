@@ -72,7 +72,7 @@
                         </JFXButton>
                      </children>
                   </HBox>
-                  <TableView fx:id="menuTable" prefHeight="200.0" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="menuTable" VBox.vgrow="ALWAYS">
                     <columns>
                       <TableColumn fx:id="menuId" prefWidth="100.0" text="Menu ID" />
                       <TableColumn fx:id="menuName" minWidth="40.0" prefWidth="350.0" text="Menu Name" />
@@ -85,9 +85,9 @@
                   </TableView>
                </children>
             </VBox>
-            <VBox maxWidth="280.0" minWidth="400.0" spacing="5.0" HBox.hgrow="ALWAYS">
+            <VBox maxWidth="400.0" minWidth="400.0" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
-                  <AnchorPane style="-fx-background-color: ORANGE; -fx-background-radius: 20 20 0 0;">
+                  <AnchorPane prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: ORANGE; -fx-background-radius: 20 20 0 0;">
                      <children>
                         <Label alignment="CENTER" layoutX="164.0" layoutY="22.0" text="Menu Item" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="15.0">
                            <font>
@@ -99,7 +99,7 @@
                         <Insets top="65.0" />
                      </VBox.margin>
                   </AnchorPane>
-                  <VBox fx:id="orderContainer" VBox.vgrow="ALWAYS" />
+                  <VBox fx:id="orderContainer" maxHeight="350.0" minWidth="350.0" prefHeight="350.0" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </children>

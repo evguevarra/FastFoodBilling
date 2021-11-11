@@ -33,15 +33,8 @@ public class CashierMenuItemsController {
     @FXML
     private Label menuItemPrice;
 
-//    @FXML
-//    private void addClick(MouseEvent mouseEvent){
-//
-//    }
-
-//    @FXML
-//    void addClick(MouseEvent event) {
-//
-//    }
+    @FXML
+    private AnchorPane nameContainer;
 
     private Menu menu;
     private MyListener myListener;
@@ -70,6 +63,10 @@ public class CashierMenuItemsController {
         menuImage.setClip(null);
         menuImage.setEffect(new DropShadow(10, Color.BLACK));
         menuImage.setImage(wImage);
+
+        addToOrderBtn.setEffect(new DropShadow(5,Color.GREY));
+        nameContainer.setEffect(new DropShadow(5,Color.GREY));
+
 
 
     }
