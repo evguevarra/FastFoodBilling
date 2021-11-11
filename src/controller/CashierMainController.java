@@ -6,14 +6,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import main.MyListener;
 import model.Menu;
@@ -29,6 +28,14 @@ import java.util.ResourceBundle;
 
 public class CashierMainController implements Initializable {
 
+    private String currentTab = "Food";
+
+    @FXML
+    private Pane addBtn;
+
+    @FXML
+    private Pane addIndicator;
+
     @FXML
     private ImageView addOnsIconImage;
 
@@ -36,13 +43,31 @@ public class CashierMainController implements Initializable {
     private ImageView beverageIconImage;
 
     @FXML
+    private Pane dessertIndicator;
+
+    @FXML
+    private Pane dessertBtn;
+
+    @FXML
     private ImageView dessertIconImage;
+
+    @FXML
+    private Pane drinkBtn;
+
+    @FXML
+    private Pane drinkIndicator;
 
     @FXML
     private Label employeeName;
 
     @FXML
+    private Pane foodBtn;
+
+    @FXML
     private ImageView foodIconImage;
+
+    @FXML
+    private Pane foodIndicator;
 
     @FXML
     private GridPane gridPane;
@@ -56,20 +81,77 @@ public class CashierMainController implements Initializable {
     @FXML
     private ScrollPane orderScroll;
 
-    //private List<Menu> menu = new ArrayList<>();
     private MyListener myListener;
+
     private ObservableList<Menu> menu = FXCollections.observableArrayList();
+
+    @FXML
+    void handleAddonBtn(MouseEvent event) {
+        currentTab = "Add ons";
+        loadIndicator();
+        gridPane.getChildren().clear();
+        loadMenuData();
+    }
+
+    @FXML
+    void handleDessertBtn(MouseEvent event) {
+        currentTab = "Desserts";
+        loadIndicator();
+        gridPane.getChildren().clear();
+        loadMenuData();
+    }
+
+    @FXML
+    void handleDrinkBtn(MouseEvent event) {
+        currentTab = "Beverages";
+        loadIndicator();
+        gridPane.getChildren().clear();
+        loadMenuData();
+    }
+
+    @FXML
+    void handleFoodBtn(MouseEvent event) {
+        currentTab = "Food";
+        loadIndicator();
+        gridPane.getChildren().clear();
+        loadMenuData();
+    }
+
+    public void loadIndicator(){
+        if(currentTab.equals("Food")){
+            foodIndicator.setStyle("-fx-background-color: #FFA500; ");
+            drinkIndicator.setStyle("-fx-background-color: transparent; ");
+            dessertIndicator.setStyle("-fx-background-color: transparent; ");
+            addIndicator.setStyle("-fx-background-color: transparent; ");
+        }else if(currentTab.equals("Beverages")){
+            foodIndicator.setStyle("-fx-background-color: transparent; ");
+            drinkIndicator.setStyle("-fx-background-color: #FFA500; ");
+            dessertIndicator.setStyle("-fx-background-color: transparent; ");
+            addIndicator.setStyle("-fx-background-color: transparent; ");
+        }else if(currentTab.equals("Desserts")){
+            foodIndicator.setStyle("-fx-background-color: transparent; ");
+            drinkIndicator.setStyle("-fx-background-color: transparent; ");
+            dessertIndicator.setStyle("-fx-background-color: #FFA500; ");
+            addIndicator.setStyle("-fx-background-color: transparent; ");
+        }else if(currentTab.equals("Add ons")){
+            foodIndicator.setStyle("-fx-background-color: transparent; ");
+            drinkIndicator.setStyle("-fx-background-color: transparent; ");
+            dessertIndicator.setStyle("-fx-background-color: transparent; ");
+            addIndicator.setStyle( "-fx-background-color: #FFA500; ");
+        }
+    }
 
 
 
     private ObservableList<Menu> getData(){
+        menu.clear();
         ObservableList<Menu> menu = FXCollections.observableArrayList();
         Menu menuModel;
 
 
         try {
             Connection connection = DatabaseConnection.connect();
-            String query = "SELECT menuName,menuPrice,menuCategory,menuImage  FROM menu ";
+            String query = "SELECT menuName,menuPrice,menuCategory,menuImage  FROM menu WHERE menuCategory = '"+currentTab+"'";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -93,104 +175,42 @@ public class CashierMainController implements Initializable {
                         Image image = new Image(tempFile.toURI().toURL().toString());
                         menuModel.setImageSrc(image);
                     }
-
-
                 }
 
                 menu.add(menuModel);
-//               String mName = resultSet.getString("menuName");
-//               double mPrice = resultSet.getDouble("menuPrice");
-//               String mCategory = resultSet.getString("menuCategory");
-//
-//
-//               InputStream image = resultSet.getBinaryStream("menuImage");
-//               OutputStream outImg = new FileOutputStream(new File(mName+".jpg"));
-//               byte[] buffer = new byte[1024];
-//               int size =0;
-//               while(image.read(buffer) > 0){
-//                        outImg.write(buffer);
-//               }
-//               image.close();
-//               outImg.close();
 
-//               String mImage = mName+".jpg";
-//
-
-//               InputStreamReader inputReader = new InputStreamReader(image);
-
-//               if(inputReader.ready())
-//                {
-//                    File tempFile = new File(mName+".jpg");
-//
-//                    FileOutputStream fos = new FileOutputStream(tempFile);
-//                    byte[] buffer = new byte[1024];
-//                    while(image.read(buffer) > 0){
-//                        fos.write(buffer);
-//                    }
-//                    mImage =tempFile.toURI().toURL().toString();
-//
-//                    //right here is where you want to set your imageView with the image.
-//                }
-                //Image mImage = new Image(new ByteArrayInputStream(image));
-
-
-                //menu.add(new Menu(mName,mPrice,mCategory,image));
             }
 
         } catch (SQLException | IOException e ) {
             e.printStackTrace();
         }
 
-
-
-//        menuModel = new Menu();
-//        menuModel.setName("Deluxe Burger");
-//        menuModel.setPrice(120.00);
-//        menuModel.setImageSrc("/img/deluxe-burger.jpg");
-//        menu.add(menuModel);
-//
-//        menuModel = new Menu();
-//        menuModel.setName("Cheese Burger");
-//        menuModel.setPrice(50.00);
-//        menuModel.setImageSrc("/img/cheese-burger.jpg");
-//        menu.add(menuModel);
-//
-//        menuModel = new Menu();
-//        menuModel.setName("Double Cheese Burger");
-//        menuModel.setPrice(120.00);
-//        menuModel.setImageSrc("/img/double-cheeseburger.jpg");
-//        menu.add(menuModel);
-
         return menu;
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void loadMenuData(){
 
         int column = 0;
         int row = 1;
-
-        orderScroll.setStyle("-fx-background: transparent; -fx-background-color: transparent; ");
-
 
         menu.addAll(getData());
         if(menu.size()>0){
             myListener = new MyListener() {
                 @Override
                 public void onClickListener(Menu menu) {
-                      try {
-                          FXMLLoader fxmlLoader = new FXMLLoader();
-                          fxmlLoader.setLocation(getClass().getResource("/views/CashierOrderTabCard.fxml"));
-                          AnchorPane aPane = fxmlLoader.load();
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("/views/CashierOrderTabCard.fxml"));
+                        AnchorPane aPane = fxmlLoader.load();
 
-                          CashierOrderTabController orderController = fxmlLoader.getController();
-                          orderController.setOrderItemName(menu.getName());
+                        CashierOrderTabController orderController = fxmlLoader.getController();
+                        orderController.setOrderItemName(menu.getName());
 
-                          orderContainer.getChildren().add(aPane);
-                          orderContainer.setSpacing(10);
-                      }catch (IOException e) {
-                          e.printStackTrace();
-                      }
+                        orderContainer.getChildren().add(aPane);
+                        orderContainer.setSpacing(10);
+                    }catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             };
         }
@@ -210,20 +230,20 @@ public class CashierMainController implements Initializable {
                 }
 
                 gridPane.add(anchorPane,column++,row);
-
-//                gridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
-//                gridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
-//                gridPane.setMaxWidth(Region.USE_PREF_SIZE);
-//
-//                gridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
-//                gridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
-//                gridPane.setMaxHeight(Region.USE_PREF_SIZE);
-
                 GridPane.setMargin(anchorPane,new Insets(15));
             }
         }catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        loadIndicator();
+        orderScroll.setStyle("-fx-background: transparent; -fx-background-color: transparent; ");
+        loadMenuData();
+
 
     }
 }
