@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManagerEmployeeController">
+    <children>
+        <HBox spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <VBox HBox.hgrow="ALWAYS">
+                    <children>
+                        <HBox prefHeight="47.0" spacing="10.0">
+                            <children>
+                                <Label text="Employees" textFill="GREY" HBox.hgrow="ALWAYS">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets bottom="8.0" top="8.0" />
+                                    </HBox.margin>
+                                </Label>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                    <children>
+                                        <TextField layoutX="48.0" layoutY="11.0" promptText="Search" style="-fx-background-radius: 30;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
+                                            <padding>
+                                                <Insets left="30.0" />
+                                            </padding>
+                                        </TextField>
+                                    </children>
+                                </AnchorPane>
+                                <JFXButton fx:id="addEmployeeBtn" onAction="#handleAddEmpBtn" style="-fx-background-color: orange;" text="Add Employee" textFill="WHITE">
+                                    <HBox.margin>
+                                        <Insets top="8.0" />
+                                    </HBox.margin>
+                                </JFXButton>
+                                <JFXButton fx:id="refreshBtn" prefWidth="70.0" style="-fx-background-color: orange;" text="Refresh" textFill="WHITE">
+                                    <HBox.margin>
+                                        <Insets right="5.0" top="8.0" />
+                                    </HBox.margin>
+                                </JFXButton>
+                            </children>
+                        </HBox>
+                        <TableView fx:id="empTable" prefHeight="200.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="empID" prefWidth="75.0" text="Employee ID" />
+                                <TableColumn fx:id="empLastname" minWidth="40.0" prefWidth="200.0" text="Last Name" />
+                                <TableColumn fx:id="empFirstname" prefWidth="200.0" text="First Name" />
+                                <TableColumn fx:id="empGender" prefWidth="75.0" text="Gender" />
+                        <TableColumn fx:id="empBirthdate" prefWidth="100.0" text="Birthdate" />
+                        <TableColumn fx:id="empContact" prefWidth="150.0" text="Contact No." />
+                        <TableColumn fx:id="empPosition" prefWidth="100.0" text="Position" />
+                            </columns>
+                            <VBox.margin>
+                                <Insets bottom="20.0" top="20.0" />
+                            </VBox.margin>
+                        </TableView>
+                    </children>
+                </VBox>
+                <VBox maxWidth="280.0" minWidth="400.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <AnchorPane style="-fx-background-color: ORANGE; -fx-background-radius: 20 20 0 0;">
+                            <children>
+                                <Label alignment="CENTER" layoutX="164.0" layoutY="22.0" text="Employee Information" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="15.0">
+                                    <font>
+                                        <Font name="System Bold" size="22.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="65.0" />
+                            </VBox.margin>
+                        </AnchorPane>
+                        <VBox fx:id="orderContainer" VBox.vgrow="ALWAYS" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

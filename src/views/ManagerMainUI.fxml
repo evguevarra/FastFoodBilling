@@ -1,14 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="views.ManagerMainUI"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane minWidth="500.0" prefHeight="810.0" prefWidth="1315.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManagerMainController">
+    <children>
+        <BorderPane layoutX="35.0" layoutY="49.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C9C9C7;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <left>
+                <VBox maxWidth="-Infinity" prefHeight="200.0" prefWidth="120.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+                    <children>
+                        <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../img/Outline.png" />
+                            </image>
+                            <VBox.margin>
+                                <Insets bottom="40.0" left="30.0" right="30.0" top="20.0" />
+                            </VBox.margin>
+                        </ImageView>
+                        <Pane fx:id="menuBtn" onMouseClicked="#handleMenuBtn" prefHeight="120.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fx:id="foodIconImage" fitHeight="50.0" fitWidth="50.0" layoutX="55.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" style="-fx-blend-mode: DARKEN;">
+                                    <image>
+                                        <Image url="@../img/restaurant.png" />
+                                    </image>
+                                </ImageView>
+                                <Label layoutX="30.0" layoutY="76.0" text="Menu Items" textFill="#8a8484">
+                                    <font>
+                                        <Font size="20.0" />
+                                    </font>
+                                </Label>
+                                <Pane fx:id="menuIndicator" layoutX="-1.0" layoutY="1.0" prefHeight="120.0" prefWidth="10.0" style="-fx-background-color: grey;" />
+                            </children>
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                        </Pane>
+                        <Pane fx:id="reportBtn" onMouseClicked="#handleReportsBtn" prefHeight="120.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fx:id="reportIconImage" fitHeight="45.0" fitWidth="50.0" layoutX="55.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" style="-fx-blend-mode: DARKEN;">
+                                    <image>
+                                        <Image url="@../img/check-list.png" />
+                                    </image>
+                                </ImageView>
+                                <Label layoutX="47.0" layoutY="76.0" text="Reports" textFill="#8a8484">
+                                    <font>
+                                        <Font size="20.0" />
+                                    </font>
+                                </Label>
+                                <Pane fx:id="reportIndicator" layoutX="-1.0" layoutY="1.0" prefHeight="120.0" prefWidth="10.0" style="-fx-background-color: grey;" />
+                            </children>
+                        </Pane>
+                        <Pane fx:id="employeeBtn" onMouseClicked="#handleEmployeeBtn" prefHeight="120.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fx:id="employeeIconImage" fitHeight="50.0" fitWidth="50.0" layoutX="53.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" style="-fx-blend-mode: DARKEN;">
+                                    <image>
+                                        <Image url="@../img/businessman.png" />
+                                    </image>
+                                </ImageView>
+                                <Label layoutX="36.0" layoutY="79.0" text="Employees" textFill="#8a8484">
+                                    <font>
+                                        <Font size="20.0" />
+                                    </font>
+                                </Label>
+                                <Pane fx:id="employeeIndicator" layoutX="-1.0" layoutY="1.0" prefHeight="120.0" prefWidth="10.0" style="-fx-background-color: grey;" />
+                            </children>
+                        </Pane>
+                    </children>
+                </VBox>
+            </left>
+            <center>
+            <AnchorPane>
+               <children>
+                      <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <children>
+                              <AnchorPane prefHeight="100.0" prefWidth="500.0" style="-fx-background-color: white;">
+                                  <VBox.margin>
+                                      <Insets left="30.0" right="30.0" top="20.0" />
+                                  </VBox.margin>
+                                  <children>
+                                      <VBox layoutX="13.0" layoutY="7.0" prefHeight="80.0" AnchorPane.leftAnchor="13.0">
+                                          <children>
+                                              <Label fx:id="employeeName" text="Edison Guevarra" textFill="#8a8484">
+                                                  <font>
+                                                      <Font name="System Bold" size="25.0" />
+                                                  </font>
+                                                  <VBox.margin>
+                                                      <Insets left="20.0" top="10.0" />
+                                                  </VBox.margin>
+                                              </Label>
+                                              <Label text="Manager" textFill="#8a8484">
+                                                  <font>
+                                                      <Font size="20.0" />
+                                                  </font>
+                                                  <VBox.margin>
+                                                      <Insets left="20.0" />
+                                                  </VBox.margin>
+                                              </Label>
+                                          </children>
+                                      </VBox>
+                                      <HBox layoutX="828.0" layoutY="9.0" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+                                          <children>
+                                              <FontAwesomeIconView fill="#8a8484" glyphName="GEAR" size="4.0em" />
+                                          </children>
+                                      </HBox>
+                                  </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="uiPane" VBox.vgrow="ALWAYS">
+                                  <VBox.margin>
+                                      <Insets left="30.0" right="30.0" top="5.0" />
+                                  </VBox.margin>
+                              </AnchorPane>
+                          </children>
+                      </VBox>
+               </children>
+            </AnchorPane>
+            </center>
+        </BorderPane>
+    </children>
 </AnchorPane>

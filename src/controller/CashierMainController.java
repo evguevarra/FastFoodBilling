@@ -59,23 +59,23 @@ public class CashierMainController implements Initializable {
 
 
 
-        menuModel = new Menu();
-        menuModel.setName("Deluxe Burger");
-        menuModel.setPrice(120.00);
-        menuModel.setImageSrc("/img/deluxe-burger.jpg");
-        menu.add(menuModel);
-
-        menuModel = new Menu();
-        menuModel.setName("Cheese Burger");
-        menuModel.setPrice(50.00);
-        menuModel.setImageSrc("/img/cheese-burger.jpg");
-        menu.add(menuModel);
-
-        menuModel = new Menu();
-        menuModel.setName("Double Cheese Burger");
-        menuModel.setPrice(120.00);
-        menuModel.setImageSrc("/img/double-cheeseburger.jpg");
-        menu.add(menuModel);
+//        menuModel = new Menu();
+//        menuModel.setName("Deluxe Burger");
+//        menuModel.setPrice(120.00);
+//        menuModel.setImageSrc("/img/deluxe-burger.jpg");
+//        menu.add(menuModel);
+//
+//        menuModel = new Menu();
+//        menuModel.setName("Cheese Burger");
+//        menuModel.setPrice(50.00);
+//        menuModel.setImageSrc("/img/cheese-burger.jpg");
+//        menu.add(menuModel);
+//
+//        menuModel = new Menu();
+//        menuModel.setName("Double Cheese Burger");
+//        menuModel.setPrice(120.00);
+//        menuModel.setImageSrc("/img/double-cheeseburger.jpg");
+//        menu.add(menuModel);
 
         return menu;
     }

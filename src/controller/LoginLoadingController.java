@@ -25,14 +25,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class LoginLoadingController implements Initializable {
-
+    private String empPosition;
     @FXML
     private Label loadMessage;
 
     @FXML
     private AnchorPane anchorPane;
 
-
+    public void setEmployeePosition(String position){
+        empPosition = position;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -57,7 +59,11 @@ public class LoginLoadingController implements Initializable {
                     public void run() {
                         Parent root = null;
                         try {
-                            root = FXMLLoader.load(LoginLoadingController.class.getResource("/views/CashierMainUI.fxml"));
+                            if(empPosition.equals("cashier")) {
+                                root = FXMLLoader.load(LoginLoadingController.class.getResource("/views/CashierMainUI.fxml"));
+                            }else if(empPosition.equals("manager")){
+                                root = FXMLLoader.load(LoginLoadingController.class.getResource("/views/ManagerMainUI.fxml"));
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -65,6 +71,7 @@ public class LoginLoadingController implements Initializable {
                         Stage stage = new Stage();
                         stage.setTitle("Welcome to FastFood Billing System");
                         stage.setScene(scene);
+                        stage.setMaximized(true);
                         stage.initModality(Modality.NONE);
                         stage.show();
                         stage.centerOnScreen();
