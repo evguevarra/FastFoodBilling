@@ -6,10 +6,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,17 +64,25 @@ public class ManagerEmployeeAddController implements Initializable {
     void handleCameraBtn(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/views/Camera.fxml"));
-            DialogPane dialogPane = fxmlLoader.load();
+            fxmlLoader.setLocation(getClass().getResource("/views/Webcam.fxml"));
+            Parent root = fxmlLoader.load();
 
-            Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.setDialogPane(dialogPane);
-            dialog.setTitle("Take a picture");
-
-           Optional<ButtonType> clickedBtn = dialog.showAndWait();
-//            if (clickedBtn.get() == ButtonType.OK){
-//                System.out.println("Added");
-//            }
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Take Picture");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.show();
+//            DialogPane dialogPane = fxmlLoader.load();
+//
+//            Dialog<ButtonType> dialog = new Dialog<>();
+//            dialog.setDialogPane(dialogPane);
+//            dialog.setTitle("Take a picture");
+//
+//           Optional<ButtonType> clickedBtn = dialog.showAndWait();
+////            if (clickedBtn.get() == ButtonType.OK){
+////                System.out.println("Added");
+////            }
 
 
         } catch (IOException e) {
