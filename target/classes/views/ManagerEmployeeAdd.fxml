@@ -60,7 +60,12 @@
                                         <ImageView fx:id="employeeImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                                     </children>
                                 </AnchorPane>
-                                <JFXButton fx:id="browseBtn" onAction="#handleBrowseButton" style="-fx-background-color: ORANGE;" text="Browse Image" textFill="WHITE" />
+                        <HBox alignment="CENTER" spacing="10.0">
+                           <children>
+                                      <JFXButton fx:id="browseBtn" onAction="#handleBrowseButton" style="-fx-background-color: ORANGE;" text="Browse Image" textFill="WHITE" />
+                              <JFXButton fx:id="webcamBtn" onAction="#handleCameraBtn" style="-fx-background-color: ORANGE;" text="Take Picture" textFill="WHITE" />
+                           </children>
+                        </HBox>
                             </children>
                         </VBox>
                     </children>

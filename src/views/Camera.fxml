@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+
+<DialogPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CameraController">
+   <content>
+      <AnchorPane prefWidth="600.0">
+         <children>
+            <AnchorPane fx:id="aPane" layoutX="150.0" layoutY="41.0" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: black;" AnchorPane.topAnchor="20.0" />
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="303.0" spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+               <children>
+                  <JFXButton fx:id="startBtn" onAction="#handleStartBtn" prefWidth="100.0" style="-fx-background-color: orange;" text="Start" textFill="WHITE" />
+                  <JFXButton fx:id="captureBtn" onAction="#handleCaptureBtn" prefWidth="100.0" style="-fx-background-color: orange;" text="Capture" textFill="WHITE" />
+                  <JFXButton fx:id="saveBtn" onAction="#handleSaveBtn" prefWidth="100.0" style="-fx-background-color: orange;" text="Save" textFill="WHITE" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </content>
+   <buttonTypes>
+      <ButtonType fx:constant="CLOSE" />
+   </buttonTypes>
+</DialogPane>

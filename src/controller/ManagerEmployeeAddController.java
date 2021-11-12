@@ -4,15 +4,17 @@ import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ManagerEmployeeAddController implements Initializable {
@@ -22,6 +24,9 @@ public class ManagerEmployeeAddController implements Initializable {
 
     @FXML
     private JFXButton browseBtn;
+
+    @FXML
+    private JFXButton webcamBtn;
 
     @FXML
     private ImageView employeeImage;
@@ -47,6 +52,28 @@ public class ManagerEmployeeAddController implements Initializable {
             employeeImage.setImage(new Image(file.toURI().toString()));
         }else{
             System.out.println("A file is invalid");
+        }
+    }
+
+    @FXML
+    void handleCameraBtn(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/views/Camera.fxml"));
+            DialogPane dialogPane = fxmlLoader.load();
+
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(dialogPane);
+            dialog.setTitle("Take a picture");
+
+           Optional<ButtonType> clickedBtn = dialog.showAndWait();
+//            if (clickedBtn.get() == ButtonType.OK){
+//                System.out.println("Added");
+//            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

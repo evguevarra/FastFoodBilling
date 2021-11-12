@@ -59,6 +59,8 @@ public class ManagerMainController implements Initializable {
     @FXML
     private Label logoutBtn;
 
+
+
     @FXML
     void handleEmployeeBtn(MouseEvent event) {
         currentTab = "employee";
