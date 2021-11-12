@@ -17,6 +17,7 @@ import model.Menu;
 
 import java.awt.desktop.AppReopenedListener;
 import java.awt.event.MouseEvent;
+import java.io.ByteArrayInputStream;
 
 public class CashierMenuItemsController {
 
@@ -32,15 +33,8 @@ public class CashierMenuItemsController {
     @FXML
     private Label menuItemPrice;
 
-//    @FXML
-//    private void addClick(MouseEvent mouseEvent){
-//
-//    }
-
-//    @FXML
-//    void addClick(MouseEvent event) {
-//
-//    }
+    @FXML
+    private AnchorPane nameContainer;
 
     private Menu menu;
     private MyListener myListener;
@@ -50,8 +44,8 @@ public class CashierMenuItemsController {
         this.myListener = myListener;
         menuItemName.setText(menu.getName());
         menuItemPrice.setText("₱"+menu.getPrice());
-        Image image = new Image(getClass().getResourceAsStream(menu.getImageSrc()));
-        menuImage.setImage(image);
+        //Image image = new Image(getClass().getResourceAsStream(menu.getImageSrc()));
+        menuImage.setImage(menu.getImageSrc());
 
         Rectangle clip = new Rectangle();
         clip.setWidth(200.0f);
@@ -69,6 +63,10 @@ public class CashierMenuItemsController {
         menuImage.setClip(null);
         menuImage.setEffect(new DropShadow(10, Color.BLACK));
         menuImage.setImage(wImage);
+
+        addToOrderBtn.setEffect(new DropShadow(5,Color.GREY));
+        nameContainer.setEffect(new DropShadow(5,Color.GREY));
+
 
 
     }

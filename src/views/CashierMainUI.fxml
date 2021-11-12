@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -16,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minWidth="500.0" prefHeight="810.0" prefWidth="1315.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CashierMainController">
+<AnchorPane minWidth="500.0" prefHeight="700.0" prefWidth="1315.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CashierMainController">
    <children>
       <BorderPane layoutX="35.0" layoutY="49.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C9C9C7;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -27,10 +28,10 @@
                         <Image url="@../img/Outline.png" />
                      </image>
                      <VBox.margin>
-                        <Insets bottom="40.0" left="30.0" right="30.0" top="20.0" />
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="20.0" />
                      </VBox.margin>
                   </ImageView>
-                  <Pane prefHeight="120.0" prefWidth="200.0">
+                  <Pane fx:id="foodBtn" onMouseClicked="#handleFoodBtn" prefHeight="120.0" prefWidth="200.0">
                      <children>
                         <ImageView fx:id="foodIconImage" fitHeight="50.0" fitWidth="50.0" layoutX="53.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" style="-fx-blend-mode: DARKEN;">
                            <image>
@@ -42,13 +43,13 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Pane layoutX="-1.0" layoutY="1.0" prefHeight="120.0" prefWidth="10.0" style="-fx-background-color: grey;" />
+                        <Pane fx:id="foodIndicator" layoutX="-1.0" layoutY="1.0" prefHeight="120.0" prefWidth="10.0" style="-fx-background-color: grey;" />
                      </children>
                      <VBox.margin>
-                        <Insets top="20.0" />
+                        <Insets top="15.0" />
                      </VBox.margin>
                   </Pane>
-                  <Pane prefHeight="120.0" prefWidth="200.0">
+                  <Pane fx:id="drinkBtn" onMouseClicked="#handleDrinkBtn" prefHeight="120.0" prefWidth="200.0">
                      <children>
                         <ImageView fx:id="beverageIconImage" fitHeight="45.0" fitWidth="50.0" layoutX="60.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" style="-fx-blend-mode: DARKEN;">
                            <image>
@@ -60,10 +61,10 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Pane layoutX="-1.0" layoutY="1.0" prefHeight="120.0" prefWidth="10.0" style="-fx-background-color: grey;" />
+                        <Pane fx:id="drinkIndicator" layoutX="-1.0" layoutY="1.0" prefHeight="120.0" prefWidth="10.0" style="-fx-background-color: grey;" />
                      </children>
                   </Pane>
-                  <Pane prefHeight="120.0" prefWidth="200.0">
+                  <Pane fx:id="dessertBtn" onMouseClicked="#handleDessertBtn" prefHeight="120.0" prefWidth="200.0">
                      <children>
                         <ImageView fx:id="dessertIconImage" fitHeight="50.0" fitWidth="50.0" layoutX="53.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" style="-fx-blend-mode: DARKEN;">
                            <image>
@@ -75,10 +76,10 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Pane layoutX="-1.0" layoutY="1.0" prefHeight="120.0" prefWidth="10.0" style="-fx-background-color: grey;" />
+                        <Pane fx:id="dessertIndicator" layoutX="-1.0" layoutY="1.0" prefHeight="120.0" prefWidth="10.0" style="-fx-background-color: grey;" />
                      </children>
                   </Pane>
-                  <Pane prefHeight="120.0" prefWidth="200.0">
+                  <Pane fx:id="addBtn" onMouseClicked="#handleAddonBtn" prefHeight="120.0" prefWidth="200.0">
                      <children>
                         <ImageView fx:id="addOnsIconImage" fitHeight="50.0" fitWidth="50.0" layoutX="58.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" style="-fx-blend-mode: DARKEN;">
                            <image>
@@ -90,7 +91,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Pane layoutX="-1.0" layoutY="1.0" prefHeight="120.0" prefWidth="10.0" style="-fx-background-color: grey;" />
+                        <Pane fx:id="addIndicator" layoutX="-1.0" layoutY="1.0" prefHeight="120.0" prefWidth="10.0" style="-fx-background-color: grey;" />
                      </children>
                   </Pane>
                </children>
@@ -149,52 +150,93 @@
                         <Insets left="30.0" right="30.0" top="5.0" />
                      </VBox.margin>
                   </AnchorPane>
-                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <AnchorPane VBox.vgrow="ALWAYS">
                      <children>
-                        <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="720.0">
-                           <HBox.margin>
-                              <Insets bottom="20.0" left="30.0" top="20.0" />
-                           </HBox.margin>
-                           <content>
-                              <GridPane fx:id="gridPane" prefHeight="10.0" prefWidth="31.0">
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                                 </rowConstraints>
-                              </GridPane>
-                           </content>
-                        </ScrollPane>
-                        <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
+                        <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <AnchorPane prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: ORANGE; -fx-background-radius: 20 20 0 0;">
-                                 <VBox.margin>
-                                    <Insets left="20.0" right="30.0" top="20.0" />
-                                 </VBox.margin>
-                                 <children>
-                                    <Label alignment="CENTER" layoutX="164.0" layoutY="22.0" text="Order List" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="15.0">
-                                       <font>
-                                          <Font name="System Bold" size="22.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </AnchorPane>
-                              <ScrollPane fx:id="orderScroll" prefHeight="371.0" prefWidth="355.0">
-                                 <VBox.margin>
-                                    <Insets left="20.0" right="30.0" top="10.0" />
-                                 </VBox.margin>
+                              <ScrollPane fx:id="scrollPane" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets bottom="20.0" left="30.0" top="10.0" />
+                                 </HBox.margin>
                                  <content>
-                                    <VBox fx:id="orderContainer" />
+                                    <GridPane fx:id="gridPane" prefHeight="10.0" prefWidth="31.0">
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                       </rowConstraints>
+                                    </GridPane>
                                  </content>
                               </ScrollPane>
+                              <VBox maxWidth="400.0" minWidth="400.0" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <children>
+                                    <AnchorPane prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: ORANGE; -fx-background-radius: 20 20 0 0;">
+                                       <VBox.margin>
+                                          <Insets left="20.0" right="30.0" top="10.0" />
+                                       </VBox.margin>
+                                       <children>
+                                          <Label alignment="CENTER" layoutX="164.0" layoutY="22.0" text="Order List" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="15.0">
+                                             <font>
+                                                <Font name="System Bold" size="22.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </AnchorPane>
+                                    <ScrollPane fx:id="orderScroll" maxHeight="230.0" minWidth="350.0" prefHeight="350.0">
+                                       <VBox.margin>
+                                          <Insets left="20.0" right="30.0" top="5.0" />
+                                       </VBox.margin>
+                                       <content>
+                                          <VBox fx:id="orderContainer" />
+                                       </content>
+                                    </ScrollPane>
+                                    <AnchorPane style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" left="20.0" right="30.0" top="10.0" />
+                                       </VBox.margin>
+                                       <children>
+                                          <Label layoutX="35.0" layoutY="21.0" text="Subtotal:" />
+                                          <Label layoutX="45.0" layoutY="49.0" text="V.A.T. " />
+                                          <Label layoutX="38.0" layoutY="72.0" text="Total">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="subtotalValue" layoutX="292.0" layoutY="21.0" text="0.00" AnchorPane.rightAnchor="35.0" />
+                                          <Label layoutX="284.0" layoutY="49.0" text="+12%" AnchorPane.rightAnchor="35.0" />
+                                          <Label fx:id="totalValue" layoutX="279.0" layoutY="77.0" text="0.00" textFill="ORANGE" AnchorPane.rightAnchor="35.0">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXButton fx:id="payBtn" layoutX="271.0" layoutY="115.0" prefWidth="120.0" style="-fx-background-color: cadetblue;" text="Pay Now" textFill="WHITE" AnchorPane.rightAnchor="35.0" />
+                                          <FontAwesomeIconView fill="WHITE" glyphName="MONEY" layoutX="207.0" layoutY="132.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </AnchorPane>
                </children>
             </VBox>
          </center>
+         <top>
+            <AnchorPane prefHeight="25.0" style="-fx-background-color: ORANGE;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="logoutBtn" layoutX="1272.0" layoutY="4.0" onMouseClicked="#handleLogoutBtn" text="Logout" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <FontAwesomeIconView fill="WHITE" glyphName="CIRCLE" layoutX="14.0" layoutY="18.0" />
+                  <FontAwesomeIconView fill="WHITE" glyphName="CIRCLE" layoutX="31.0" layoutY="18.0" />
+                  <FontAwesomeIconView fill="WHITE" glyphName="CIRCLE" layoutX="48.0" layoutY="18.0" />
+               </children>
+            </AnchorPane>
+         </top>
       </BorderPane>
    </children>
 </AnchorPane>
