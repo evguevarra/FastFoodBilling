@@ -1,6 +1,8 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import model.Menu;
 import model.User;
@@ -24,6 +27,14 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ManagerEmployeeController implements Initializable {
+
+    final BooleanProperty fTime = new SimpleBooleanProperty(true);
+
+    @FXML
+    private AnchorPane mainContainer;
+
+    @FXML
+    private TextField searchField;
 
     @FXML
     private JFXButton addEmployeeBtn;
@@ -102,6 +113,7 @@ public class ManagerEmployeeController implements Initializable {
 
                observableList.add(new User(eID,fName,lName,gender,birthdate,contactNumber,position));
             }
+            preparedStatement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,6 +132,14 @@ public class ManagerEmployeeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        searchField.focusedProperty().addListener((observable, oldValue, newValue)->{
+            if(newValue && fTime.get()){
+                mainContainer.requestFocus();
+                fTime.setValue(false);
+            }
+        });
+
         displayTableData();
     }
 }

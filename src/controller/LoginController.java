@@ -2,6 +2,8 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +28,9 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
+
+    final BooleanProperty fTime = new SimpleBooleanProperty(true);
+
     private String empPosition;
 
     Connection connectDB = DatabaseConnection.connect();
@@ -103,6 +108,7 @@ public class LoginController implements Initializable {
                     loginMessage.setText("Login Failed! Wrong username and password");
                 }
             }
+            preparedStatement.close();
 
         }catch (Exception e){
             e.printStackTrace();
@@ -140,6 +146,14 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         managerRB.setToggleGroup(rdGroup);
         cashierRB.setToggleGroup(rdGroup);
+
+        usernameField.focusedProperty().addListener((observable, oldValue, newValue)->{
+            if(newValue && fTime.get()){
+                leftPanelImage.requestFocus();
+                fTime.setValue(false);
+            }
+        });
+
 
 
     }

@@ -1,6 +1,8 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,6 +34,8 @@ import java.util.ResourceBundle;
 
 public class CashierMainController implements Initializable {
 
+    final BooleanProperty fTime = new SimpleBooleanProperty(true);
+
     private String currentTab = "Food";
 
     @FXML
@@ -38,6 +43,12 @@ public class CashierMainController implements Initializable {
 
     @FXML
     private AnchorPane nameBar;
+
+    @FXML
+    private Label categoryLabel;
+
+    @FXML
+    private TextField searchField;
 
     @FXML
     private Pane addBtn;
@@ -113,6 +124,7 @@ public class CashierMainController implements Initializable {
         loadIndicator();
         gridPane.getChildren().clear();
         loadMenuData();
+
     }
 
     @FXML
@@ -121,6 +133,7 @@ public class CashierMainController implements Initializable {
         loadIndicator();
         gridPane.getChildren().clear();
         loadMenuData();
+
     }
 
     @FXML
@@ -146,6 +159,7 @@ public class CashierMainController implements Initializable {
     }
 
     public void loadIndicator(){
+        categoryLabel.setText(currentTab);
         if(currentTab.equals("Food")){
             foodIndicator.setStyle("-fx-background-color: #FFA500; ");
             drinkIndicator.setStyle("-fx-background-color: transparent; ");
@@ -208,6 +222,7 @@ public class CashierMainController implements Initializable {
                 menu.add(menuModel);
 
             }
+            preparedStatement.close();
 
         } catch (SQLException | IOException e ) {
             e.printStackTrace();
@@ -274,6 +289,13 @@ public class CashierMainController implements Initializable {
         loadMenuData();
 
         nameBar.setEffect(new DropShadow(5, Color.GREY));
+
+        searchField.focusedProperty().addListener((observable, oldValue, newValue)->{
+            if(newValue && fTime.get()){
+                mainContainer.requestFocus();
+                fTime.setValue(false);
+            }
+        });
 
 
     }

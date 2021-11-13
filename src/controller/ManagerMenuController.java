@@ -1,6 +1,8 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import model.Menu;
@@ -26,7 +29,15 @@ import java.util.ResourceBundle;
 
 public class ManagerMenuController implements Initializable {
 
+    final BooleanProperty fTime = new SimpleBooleanProperty(true);
+
     String currentCategory = "";
+
+    @FXML
+    private AnchorPane mainContainer;
+
+    @FXML
+    private TextField searchField;
 
     @FXML
     private JFXButton addItemBtn;
@@ -152,6 +163,7 @@ public class ManagerMenuController implements Initializable {
 
                 observableList.add(new Menu(mID,name,price,category));
             }
+            preparedStatement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -173,7 +185,12 @@ public class ManagerMenuController implements Initializable {
         dessertBtn.setTextFill(Color.GREY);
         addOnsBtn.setTextFill(Color.GREY);
 
-
+        searchField.focusedProperty().addListener((observable, oldValue, newValue)->{
+            if(newValue && fTime.get()){
+                mainContainer.requestFocus();
+                fTime.setValue(false);
+            }
+        });
 
         displayTableData();
 

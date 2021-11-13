@@ -134,12 +134,12 @@
                   </AnchorPane>
                   <AnchorPane prefWidth="200.0">
                      <children>
-                        <Label layoutX="56.0" layoutY="5.0" text="Beverages" textFill="#8a8484" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="8.0">
+                        <Label fx:id="categoryLabel" layoutX="56.0" layoutY="5.0" text="Beverages" textFill="#8a8484" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="8.0">
                            <font>
                               <Font name="System Bold" size="28.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="263.0" layoutY="15.0" promptText="Type here to search" style="-fx-background-radius: 30;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="370.0" AnchorPane.topAnchor="8.0">
+                        <TextField fx:id="searchField" layoutX="263.0" layoutY="15.0" promptText="Type here to search" style="-fx-background-radius: 30;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="370.0" AnchorPane.topAnchor="8.0">
                            <padding>
                               <Insets left="30.0" />
                            </padding>
