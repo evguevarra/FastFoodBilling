@@ -97,14 +97,15 @@ public class ManagerMenuController implements Initializable {
             fxmlLoader.setLocation(getClass().getResource("/views/ManagerMenuAdd.fxml"));
             DialogPane dialogPane = fxmlLoader.load();
 
+            ManagerMenuAddController menuAddController = fxmlLoader.getController();
+
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(dialogPane);
             dialog.setTitle("Add Menu Item");
 
-            Optional<ButtonType> clickedBtn = dialog.showAndWait();
-            if (clickedBtn.get() == ButtonType.OK){
-                System.out.println("Added");
-            }
+//            Optional<ButtonType> clickedBtn =
+            dialog.showAndWait();
+
 
 
         } catch (IOException e) {
@@ -159,7 +160,7 @@ public class ManagerMenuController implements Initializable {
 
     @FXML
     void handleRefreshBtn(ActionEvent event) {
-
+        displayTableData();
     }
 
     @FXML
