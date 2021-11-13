@@ -6,11 +6,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -21,7 +23,11 @@ public class ManagerMainController implements Initializable {
 
     private String currentTab = "menu";
 
+    @FXML
+    private AnchorPane mainContainer;
 
+    @FXML
+    private AnchorPane nameBar;
 
     @FXML
     private Pane employeeBtn;
@@ -120,5 +126,6 @@ public class ManagerMainController implements Initializable {
 
         loadIndicator();
         loadUI("ManagerMenuUi.fxml");
+        nameBar.setEffect(new DropShadow(5, Color.GREY));
     }
 }

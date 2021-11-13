@@ -10,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +32,12 @@ import java.util.ResourceBundle;
 public class CashierMainController implements Initializable {
 
     private String currentTab = "Food";
+
+    @FXML
+    private AnchorPane mainContainer;
+
+    @FXML
+    private AnchorPane nameBar;
 
     @FXML
     private Pane addBtn;
@@ -265,6 +272,8 @@ public class CashierMainController implements Initializable {
         loadIndicator();
         orderScroll.setStyle("-fx-background: transparent; -fx-background-color: transparent; ");
         loadMenuData();
+
+        nameBar.setEffect(new DropShadow(5, Color.GREY));
 
 
     }
