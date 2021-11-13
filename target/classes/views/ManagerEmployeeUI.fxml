@@ -30,10 +30,11 @@
                               <children>
                                   <TextField fx:id="searchField" layoutX="48.0" layoutY="11.0" promptText="Search" style="-fx-background-radius: 30;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
                                       <padding>
-                                          <Insets left="30.0" />
+                                          <Insets left="30.0" right="20.0" />
                                       </padding>
                                   </TextField>
                         <FontAwesomeIconView fill="#8a8484" glyphName="SEARCH" layoutX="8.0" layoutY="27.0" />
+                        <FontAwesomeIconView fx:id="clearText" fill="GREY" glyphName="TIMES" layoutX="438.0" layoutY="29.0" onMouseClicked="#handleClearTextBtn" size="15.0" AnchorPane.rightAnchor="8.0" />
                               </children>
                           </AnchorPane>
                           <JFXButton fx:id="addEmployeeBtn" onAction="#handleAddEmpBtn" style="-fx-background-color: orange;" text="Add Employee" textFill="WHITE">

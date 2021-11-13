@@ -1,16 +1,21 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import model.Menu;
@@ -35,6 +40,9 @@ public class ManagerEmployeeController implements Initializable {
 
     @FXML
     private TextField searchField;
+
+    @FXML
+    private FontAwesomeIconView clearText;
 
     @FXML
     private JFXButton addEmployeeBtn;
@@ -70,6 +78,7 @@ public class ManagerEmployeeController implements Initializable {
     private JFXButton refreshBtn;
 
     ObservableList<User> observableList = FXCollections.observableArrayList();
+    FilteredList<User> filteredList = new FilteredList<>(observableList, b ->true);
 
     @FXML
     void handleAddEmpBtn(ActionEvent event) {
@@ -92,6 +101,14 @@ public class ManagerEmployeeController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void handleClearTextBtn(MouseEvent event) {
+        searchField.clear();
+        mainContainer.requestFocus();
+    }
+
+
 
     public void displayTableData(){
 
@@ -128,6 +145,37 @@ public class ManagerEmployeeController implements Initializable {
         empPosition.setCellValueFactory(new PropertyValueFactory<>("position"));
 
         empTable.setItems(observableList);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) ->{
+            filteredList.setPredicate(userModel -> {
+
+                if(newValue.isEmpty() || newValue.isBlank() || newValue == null){
+                    return true;
+                }
+                String searchKeyword = newValue.toLowerCase();
+
+                if(userModel.getFirstname().toLowerCase().indexOf(searchKeyword) > -1){
+                    return true;
+                }else if(userModel.getLastname().toLowerCase().indexOf(searchKeyword) > -1){
+                    return true;
+                }else if(userModel.getGender().toLowerCase().indexOf(searchKeyword) > -1){
+                    return true;
+                }else if(String.valueOf(userModel.getId()).indexOf(searchKeyword) > -1){
+                    return true;
+                }else if(userModel.getPosition().toLowerCase().indexOf(searchKeyword) > -1){
+                    return true;
+                }else{
+                    return false;
+                }
+            });
+        });
+
+        SortedList<User> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(empTable.comparatorProperty());
+
+        empTable.setItems(sortedList);
+
+
     }
 
     @Override

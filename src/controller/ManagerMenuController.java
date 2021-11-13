@@ -1,16 +1,20 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -24,12 +28,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ManagerMenuController implements Initializable {
 
     final BooleanProperty fTime = new SimpleBooleanProperty(true);
+
+
 
     String currentCategory = "";
 
@@ -38,6 +45,9 @@ public class ManagerMenuController implements Initializable {
 
     @FXML
     private TextField searchField;
+
+    @FXML
+    private FontAwesomeIconView clearText;
 
     @FXML
     private JFXButton addItemBtn;
@@ -77,6 +87,8 @@ public class ManagerMenuController implements Initializable {
 
     ObservableList<Menu> observableList = FXCollections.observableArrayList();
 
+    FilteredList<Menu> filteredList = new FilteredList<>(observableList, b ->true);
+
     @FXML
     void handleAddItemBtn(ActionEvent event) {
 
@@ -103,6 +115,7 @@ public class ManagerMenuController implements Initializable {
     @FXML
     void handleAddons(MouseEvent event) {
         currentCategory = "Add ons";
+        clear();
         displayTableData();
         foodBtn.setTextFill(Color.GREY);
         beverageBtn.setTextFill(Color.GREY);
@@ -113,6 +126,7 @@ public class ManagerMenuController implements Initializable {
     @FXML
     void handleBeverage(MouseEvent event) {
         currentCategory = "Beverages";
+        clear();
         displayTableData();
         foodBtn.setTextFill(Color.GREY);
         beverageBtn.setTextFill(Color.ORANGE);
@@ -123,6 +137,7 @@ public class ManagerMenuController implements Initializable {
     @FXML
     void handleDessert(MouseEvent event) {
         currentCategory = "Desserts";
+        clear();
         displayTableData();
         foodBtn.setTextFill(Color.GREY);
         beverageBtn.setTextFill(Color.GREY);
@@ -133,6 +148,7 @@ public class ManagerMenuController implements Initializable {
     @FXML
     void handleFood(MouseEvent event) {
         currentCategory = "Food";
+        clear();
         displayTableData();
         foodBtn.setTextFill(Color.ORANGE);
         beverageBtn.setTextFill(Color.GREY);
@@ -146,8 +162,41 @@ public class ManagerMenuController implements Initializable {
 
     }
 
+    @FXML
+    void handleClearTextBtn(MouseEvent event) {
+        clear();
+    }
+
+
+    @FXML
+    void handleSearch(KeyEvent event) {
+        searchField.textProperty().addListener((observable, oldValue, newValue) ->{
+            filteredList.setPredicate(menuModel -> {
+
+                if(newValue.isEmpty() || newValue.isBlank() || newValue == null){
+                    return true;
+                }
+                String searchKeyword = newValue.toLowerCase();
+
+                if(menuModel.getName().toLowerCase().indexOf(searchKeyword) > -1){
+                    return true;
+                }else if(String.valueOf(menuModel.getId()).indexOf(searchKeyword) > -1){
+                    return true;
+                }else{
+                    return false;
+                }
+            });
+        });
+
+        SortedList<Menu> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(menuTable.comparatorProperty());
+
+        menuTable.setItems(sortedList);
+    }
+
     public void displayTableData(){
-        menuTable.getItems().clear();
+        observableList.clear();
+        //menuTable.getItems().clear();
 
         try {
             Connection connection = DatabaseConnection.connect();
@@ -175,6 +224,22 @@ public class ManagerMenuController implements Initializable {
         menuCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
 
         menuTable.setItems(observableList);
+
+
+    }
+    public void clear(){
+        searchField.clear();
+        mainContainer.requestFocus();
+    }
+
+    private void removeSearchFocus() {
+
+        searchField.focusedProperty().addListener((observable, oldValue, newValue)->{
+            if(newValue && fTime.get()){
+                mainContainer.requestFocus();
+                fTime.setValue(false);
+            }
+        });
     }
 
     @Override
@@ -185,12 +250,7 @@ public class ManagerMenuController implements Initializable {
         dessertBtn.setTextFill(Color.GREY);
         addOnsBtn.setTextFill(Color.GREY);
 
-        searchField.focusedProperty().addListener((observable, oldValue, newValue)->{
-            if(newValue && fTime.get()){
-                mainContainer.requestFocus();
-                fTime.setValue(false);
-            }
-        });
+        removeSearchFocus();
 
         displayTableData();
 

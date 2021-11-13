@@ -1,10 +1,13 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -25,6 +29,7 @@ import model.Menu;
 import model.User;
 import repositories.DatabaseConnection;
 
+import java.beans.Visibility;
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
@@ -33,8 +38,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class CashierMainController implements Initializable {
-
-    final BooleanProperty fTime = new SimpleBooleanProperty(true);
 
     private String currentTab = "Food";
 
@@ -46,9 +49,6 @@ public class CashierMainController implements Initializable {
 
     @FXML
     private Label categoryLabel;
-
-    @FXML
-    private TextField searchField;
 
     @FXML
     private Pane addBtn;
@@ -183,8 +183,6 @@ public class CashierMainController implements Initializable {
         }
     }
 
-
-
     private ObservableList<Menu> getData(){
         menu.clear();
         ObservableList<Menu> menu = FXCollections.observableArrayList();
@@ -280,9 +278,9 @@ public class CashierMainController implements Initializable {
         }
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //payBtn.setGraphic();
 
         loadIndicator();
         orderScroll.setStyle("-fx-background: transparent; -fx-background-color: transparent; ");
@@ -290,13 +288,7 @@ public class CashierMainController implements Initializable {
 
         nameBar.setEffect(new DropShadow(5, Color.GREY));
 
-        searchField.focusedProperty().addListener((observable, oldValue, newValue)->{
-            if(newValue && fTime.get()){
-                mainContainer.requestFocus();
-                fTime.setValue(false);
-            }
-        });
-
-
     }
+
+
 }

@@ -52,22 +52,23 @@
                   </Label>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="searchField" layoutX="48.0" layoutY="11.0" promptText="Search" style="-fx-background-radius: 30;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
+                        <TextField fx:id="searchField" layoutX="48.0" layoutY="11.0" onKeyPressed="#handleSearch" promptText="Search" style="-fx-background-radius: 30;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
                            <padding>
-                              <Insets left="30.0" />
+                              <Insets left="30.0" right="30.0" />
                            </padding>
                         </TextField>
                         <FontAwesomeIconView fill="#8a8484" glyphName="SEARCH" layoutX="14.0" layoutY="27.0" />
+                        <FontAwesomeIconView fx:id="clearText" fill="GREY" glyphName="TIMES" layoutX="179.92856884002686" layoutY="28.0" onMouseClicked="#handleClearTextBtn" size="15.0" text="" AnchorPane.rightAnchor="8.0" />
                      </children>
                   </AnchorPane>
                   <JFXButton fx:id="addItemBtn" onAction="#handleAddItemBtn" prefWidth="70.0" style="-fx-background-color: orange;" text="Add Item" textFill="WHITE">
                      <HBox.margin>
-                        <Insets top="8.0" />
+                        <Insets top="9.0" />
                      </HBox.margin>
                   </JFXButton>
                   <JFXButton fx:id="refreshBtn" onAction="#handleRefreshBtn" prefWidth="70.0" style="-fx-background-color: orange;" text="Refresh" textFill="WHITE">
                      <HBox.margin>
-                        <Insets right="5.0" top="8.0" />
+                        <Insets right="5.0" top="9.0" />
                      </HBox.margin>
                   </JFXButton>
                </children>
