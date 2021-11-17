@@ -2,8 +2,10 @@ package controller;
 
 import java.awt.Dimension;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,9 +14,12 @@ import com.github.sarxos.webcam.Webcam;
 import javafx.beans.binding.Bindings;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -37,14 +42,18 @@ public class WebcamController implements Initializable {
 
     private FileChooser fileChooser; // For select path of saving picture captured
 
+    private String path;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         /* Bind views */
         imageView.fitWidthProperty().bind(imgContainer.widthProperty());
         imageView.fitHeightProperty().bind(imgContainer.heightProperty());
 
         /* Init camera */
         webcam = Webcam.getDefault();
+        webcam.close();
         if(webcam == null) {
             System.out.println("Camera not found !");
             System.exit(-1);
@@ -72,19 +81,53 @@ public class WebcamController implements Initializable {
     }
 
     @FXML
-    private void btnSave() {
-        isCapture = true; // Stop taking pictures
+    private void btnSave()  {
+        isCapture = true;// Stop taking pictures
 
-        File file = fileChooser.showSaveDialog(imageView.getScene().getWindow());
-        if (file != null)
-            try { // Save picture with .png extension
-                ImageIO.write(SwingFXUtils.fromFXImage(imageView.getImage(), null), "PNG", file);
-            } catch (IOException ex) {
-                ex.printStackTrace(); // Can't save picture
-            }
+        try{
+            File file = new File("capture-"+String.valueOf(System.currentTimeMillis())+".jpg");
+            ImageIO.write(webcam.getImage(),"JPG",file);
+            path = file.getAbsolutePath();
+
+
+
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ManagerEmployeeAdd.fxml"));
+//            Parent root = loader.load();
+//            ManagerEmployeeAddController controller = loader.getController();
+//
+//            controller.file = new File(path);
+//            controller.employeeImage.setImage(new Image(path));
+
+
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+//        String name;
+//
+//        if( controller.fnameField.getText().isEmpty()){
+//            name = LocalDate.now().toString();
+//        }else {
+//            name =  controller.fnameField.getText();
+//        }
+//        File file = new File("/img/"+name+".jpg");
+////        File file = fileChooser.showSaveDialog(imageView.getScene().getWindow());
+//        if (file != null) {
+//            try { // Save picture with .png extension
+//                ImageIO.write(SwingFXUtils.fromFXImage(imageView.getImage(), null), "JPG", file);
+//            } catch (IOException ex) {
+//                ex.printStackTrace(); // Can't save picture
+//            }
+//
+//
+//            controller.employeeImage.setImage(new Image(file.toURI().toString()));
+//
+//        }
     }
 
-    class VideoTacker extends Thread {
+
+ class VideoTacker extends Thread {
         @Override
         public void run() {
             while (!isCapture) { // For each 30 millisecond take picture and set it in image view

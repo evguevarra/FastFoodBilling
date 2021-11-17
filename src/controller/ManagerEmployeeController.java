@@ -80,22 +80,31 @@ public class ManagerEmployeeController implements Initializable {
     ObservableList<User> observableList = FXCollections.observableArrayList();
     FilteredList<User> filteredList = new FilteredList<>(observableList, b ->true);
 
+    public Dialog<ButtonType> dialog;
+
     @FXML
     void handleAddEmpBtn(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/views/ManagerEmployeeAdd.fxml"));
             DialogPane dialogPane = fxmlLoader.load();
+            ManagerEmployeeAddController employeeAddController = fxmlLoader.getController();
 
-            Dialog<ButtonType> dialog = new Dialog<>();
+
+            dialog = new Dialog<>();
             dialog.setDialogPane(dialogPane);
             dialog.setTitle("Add New Employee");
 
             Optional<ButtonType> clickedBtn = dialog.showAndWait();
             if (clickedBtn.get() == ButtonType.OK){
-                System.out.println("Added");
-            }
+                employeeAddController.empCreation();
+                dialog.close();
+            }if (clickedBtn.get() == ButtonType.CANCEL){
 
+                employeeAddController.closeWebcam();
+            }
+//            ManagerEmployeeAddController employeeAddController = fxmlLoader.getController();
+//            if
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,7 +1,11 @@
 package controller;
 
+import com.github.sarxos.webcam.Webcam;
 import com.jfoenix.controls.JFXButton;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.icons525.Icons525View;
 import javafx.collections.FXCollections;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,14 +13,21 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import repositories.DatabaseConnection;
+import com.github.sarxos.webcam.Webcam;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.sql.Connection;
@@ -26,14 +37,18 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ManagerEmployeeAddController implements Initializable {
+
+    public static boolean isDone = false;
 
     @FXML
     private DatePicker birthdatePicker;
 
     @FXML
-    private TextField fnameField;
+    public TextField fnameField;
 
     @FXML
     private TextField lnameField;
@@ -51,10 +66,16 @@ public class ManagerEmployeeAddController implements Initializable {
     private JFXButton webcamBtn;
 
     @FXML
-    private JFXButton createEmpBtn;
+    private Icons525View captureBtn;
 
     @FXML
-    private ImageView employeeImage;
+    private FontAwesomeIconView resetBtn;
+
+    @FXML
+    public ImageView employeeImage;
+
+    @FXML
+    private StackPane imageContainer;
 
     @FXML
     private ComboBox<String> genderCBox;
@@ -64,11 +85,19 @@ public class ManagerEmployeeAddController implements Initializable {
 
     PreparedStatement preparedStatement = null;
     FileChooser fileChooser = new FileChooser();
-    File file;
+    public File file;
     FileInputStream fis;
+
+    public static Webcam webcam;
+    public static boolean isCapture = false;
+    private String path;
 
     @FXML
     void handleBrowseButton(ActionEvent event) {
+        //closeWebcam();
+        //new VideoTacker().interrupt();
+        //webcam.close();
+
         fileChooser.setTitle("Image Chooser");
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         fileChooser.getExtensionFilters().clear();
@@ -85,28 +114,54 @@ public class ManagerEmployeeAddController implements Initializable {
 
     @FXML
     void handleCameraBtn(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/views/Webcam.fxml"));
-            Parent root = fxmlLoader.load();
+        employeeImage.imageProperty().set(null);
+        employeeImage.fitWidthProperty().bind(imageContainer.widthProperty());
+        employeeImage.fitHeightProperty().bind(imageContainer.heightProperty());
 
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Take Picture");
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.show();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        webcam = Webcam.getDefault();
+        webcam.close();
+        if(webcam == null) {
+            System.out.println("Camera not found !");
+            System.exit(-1);
         }
+        webcam.setViewSize(new Dimension(640, 480));
+        webcam.open();
+
+        new VideoTacker().start();
+
+        fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images (*.png)", "*.png"));
+        fileChooser.setTitle("Save Image");
     }
 
     @FXML
-    void handleEmpCreation(ActionEvent event) {
+    void handleCapture(MouseEvent event) {
+        isCapture = true;
+
+      //  try{
+//            File temp = new File("capture-"+String.valueOf(System.currentTimeMillis())+".jpg");
+//            ImageIO.write(webcam.getImage(),"JPG",temp);
+//            path = temp.getAbsolutePath();
+            file = fileChooser.showSaveDialog(employeeImage.getScene().getWindow());
+            if (file != null)
+                try { // Save picture with .png extension
+                    ImageIO.write(SwingFXUtils.fromFXImage(employeeImage.getImage(), null), "PNG", file);
+                } catch (IOException ex) {
+                    ex.printStackTrace(); // Can't save picture
+                }
+
+    }
+
+    @FXML
+    void handleReset(MouseEvent event) {
+        isCapture = false;
+        new VideoTacker().start();
+    }
+
+
+    public void empCreation(){
         if(fnameField.getText().isEmpty() || lnameField.getText().isEmpty() || genderCBox.getValue().isEmpty()|| birthdatePicker.getValue().toString().isEmpty()
-         || contactField.getText().isEmpty() || positionCBox.getValue().isEmpty()){
+                || contactField.getText().isEmpty() || positionCBox.getValue().isEmpty()){
             errorMessage.setText("Please Fillup all Fields");
         }else{
             errorMessage.setText("");
@@ -174,6 +229,19 @@ public class ManagerEmployeeAddController implements Initializable {
                 e.printStackTrace();
             }
         }
+
+    }
+
+    public void closeWebcam(){
+        System.out.println("closed");
+        isCapture = false;
+        employeeImage.setImage(null);
+        if(webcam != null){
+            webcam.close();
+//            if(webcam.isOpen()) {
+//                webcam.close();
+//            }
+        }
     }
 
     @Override
@@ -181,4 +249,25 @@ public class ManagerEmployeeAddController implements Initializable {
         genderCBox.setItems(FXCollections.observableArrayList("male","female"));
         positionCBox.setItems(FXCollections.observableArrayList("manager","cashier"));
     }
+    class VideoTacker extends Thread {
+        @Override
+        public void run() {
+            while (!isCapture) { // For each 30 millisecond take picture and set it in image view
+                try {
+                    if(webcam.getImage() != null) {
+                        employeeImage.setImage(SwingFXUtils.toFXImage(webcam.getImage(), null));
+                        sleep(30);
+                    }else{
+                        employeeImage.setImage(null);
+                    }
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ManagerEmployeeAddController.class.getName()).log(Level.SEVERE, null, ex);
+                    isCapture = false;
+                }
+            }
+            webcam.close();
+        }
+    }
+
 }
+
