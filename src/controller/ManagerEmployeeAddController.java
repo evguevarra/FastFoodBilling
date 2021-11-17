@@ -8,10 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,11 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import repositories.DatabaseConnection;
-import com.github.sarxos.webcam.Webcam;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -35,7 +28,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -94,9 +86,6 @@ public class ManagerEmployeeAddController implements Initializable {
 
     @FXML
     void handleBrowseButton(ActionEvent event) {
-        //closeWebcam();
-        //new VideoTacker().interrupt();
-        //webcam.close();
         isCapture = false;
 
         fileChooser.setTitle("Image Chooser");
@@ -140,17 +129,13 @@ public class ManagerEmployeeAddController implements Initializable {
     void handleCapture(MouseEvent event) {
         isCapture = true;
 
-      //  try{
-//            File temp = new File("capture-"+String.valueOf(System.currentTimeMillis())+".jpg");
-//            ImageIO.write(webcam.getImage(),"JPG",temp);
-//            path = temp.getAbsolutePath();
-            file = fileChooser.showSaveDialog(employeeImage.getScene().getWindow());
-            if (file != null)
-                try { // Save picture with .png extension
-                    ImageIO.write(SwingFXUtils.fromFXImage(employeeImage.getImage(), null), "PNG", file);
-                } catch (IOException ex) {
-                    ex.printStackTrace(); // Can't save picture
-                }
+        file = fileChooser.showSaveDialog(employeeImage.getScene().getWindow());
+        if (file != null)
+            try { // Save picture with .png extension
+                ImageIO.write(SwingFXUtils.fromFXImage(employeeImage.getImage(), null), "PNG", file);
+            } catch (IOException ex) {
+                ex.printStackTrace(); // Can't save picture
+            }
 
     }
 
@@ -213,7 +198,6 @@ public class ManagerEmployeeAddController implements Initializable {
                     alert.setTitle("Employee Login Details");
                     alert.setContentText("Employee Account Created!\n Here are the login details\n"+"username: "+ rs.getString("employeeID")+"\npassword: "+rs.getString("password")+"\n(This is just a default password, Don't forget to change it)");
                     alert.showAndWait();
-//                    JOptionPane.showMessageDialog(null,"Employee Account Created!\n Here are the login details\n"+"username: "+ rs.getString("employeeID")+"\npassword: "+rs.getString("password")+"\n(This is just a default password, Don't forget to change it)");
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -240,9 +224,6 @@ public class ManagerEmployeeAddController implements Initializable {
         employeeImage.setImage(null);
         if(webcam != null){
             webcam.close();
-//            if(webcam.isOpen()) {
-//                webcam.close();
-//            }
         }
     }
 
@@ -260,9 +241,6 @@ public class ManagerEmployeeAddController implements Initializable {
                         employeeImage.setImage(SwingFXUtils.toFXImage(webcam.getImage(), null));
                         sleep(30);
                     }
-//                    else{
-//                        //employeeImage.imageProperty().set(null);
-//                    }
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ManagerEmployeeAddController.class.getName()).log(Level.SEVERE, null, ex);
                     isCapture = false;

@@ -14,6 +14,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -23,6 +25,7 @@ import model.User;
 import repositories.DatabaseConnection;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -72,10 +75,27 @@ public class ManagerEmployeeController implements Initializable {
     private TableView<User> empTable;
 
     @FXML
-    private VBox orderContainer;
+    private JFXButton refreshBtn;
 
     @FXML
-    private JFXButton refreshBtn;
+    private Label empIDLabel;
+
+    @FXML
+    private Label nameLabel;
+
+    @FXML
+    private Label positionLabel;
+
+    @FXML
+    private VBox empInfoContainer;
+
+    @FXML
+    private ImageView empImage;
+
+    Connection connection;
+    PreparedStatement preparedStatement;
+    ResultSet resultSet;
+
 
     ObservableList<User> observableList = FXCollections.observableArrayList();
     FilteredList<User> filteredList = new FilteredList<>(observableList, b ->true);
@@ -120,16 +140,63 @@ public class ManagerEmployeeController implements Initializable {
     @FXML
     void handleRefreshBtn(ActionEvent event) {
         displayTableData();
+        empInfoContainer.setVisible(false);
     }
+
+    @FXML
+    void handleDeleteBtn(ActionEvent event) {
+        System.out.println("Delete");
+    }
+
+    @FXML
+    void handleEditBtn(ActionEvent event) {
+        System.out.println("Edit");
+    }
+
+    @FXML
+    void handleTableClick(MouseEvent event) {
+        if(empTable.getSelectionModel().getSelectedItem() != null){
+            empInfoContainer.setVisible(true);
+
+            User empItem = empTable.getSelectionModel().getSelectedItem();
+            empIDLabel.setText(String.valueOf(empItem.getId()));
+            nameLabel.setText(empItem.getFirstname()+" "+ empItem.getLastname());
+            positionLabel.setText(empItem.getPosition());
+
+            try{
+                connection = DatabaseConnection.connect();
+                String query = "SELECT employeeImage  FROM employee WHERE employeeID = '"+empItem.getId()+"'  ";
+                preparedStatement = connection.prepareStatement(query);
+                resultSet = preparedStatement.executeQuery();
+
+                while(resultSet.next()){
+                    InputStream input = resultSet.getBinaryStream("employeeImage");
+
+                    if(input != null && input.available() > 1){
+                        Image img = new Image(input);
+                        empImage.setImage(img);
+                    }
+                }
+
+
+
+            } catch (SQLException | IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
 
     public void displayTableData(){
         observableList.clear();
 
         try {
-            Connection connection = DatabaseConnection.connect();
+            connection = DatabaseConnection.connect();
             String query = "SELECT employeeID, lastname, firstname, gender, birthdate, contactNumber, position  FROM employee ";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
                 int eID = resultSet.getInt("employeeID");
@@ -193,13 +260,14 @@ public class ManagerEmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
         searchField.focusedProperty().addListener((observable, oldValue, newValue)->{
             if(newValue && fTime.get()){
                 mainContainer.requestFocus();
                 fTime.setValue(false);
             }
         });
-
+        empInfoContainer.setVisible(false);
         displayTableData();
     }
 }
