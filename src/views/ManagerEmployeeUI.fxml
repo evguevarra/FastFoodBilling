@@ -42,7 +42,7 @@
                                   <Insets top="8.0" />
                               </HBox.margin>
                           </JFXButton>
-                          <JFXButton fx:id="refreshBtn" prefWidth="70.0" style="-fx-background-color: orange;" text="Refresh" textFill="WHITE">
+                          <JFXButton fx:id="refreshBtn" onAction="#handleRefreshBtn" prefWidth="70.0" style="-fx-background-color: orange;" text="Refresh" textFill="WHITE">
                               <HBox.margin>
                                   <Insets right="5.0" top="8.0" />
                               </HBox.margin>

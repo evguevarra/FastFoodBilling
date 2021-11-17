@@ -108,10 +108,13 @@ public class ManagerEmployeeController implements Initializable {
         mainContainer.requestFocus();
     }
 
-
+    @FXML
+    void handleRefreshBtn(ActionEvent event) {
+        displayTableData();
+    }
 
     public void displayTableData(){
-
+        observableList.clear();
 
         try {
             Connection connection = DatabaseConnection.connect();

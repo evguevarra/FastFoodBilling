@@ -77,6 +77,7 @@ public class ManagerMenuAddController implements Initializable {
         if(menuNameField.getText().isEmpty() || priceField.getText().isEmpty() || categoryCBox.getValue().isEmpty()){
             errorMessage.setText("Please Fillup all Fields");
         }else{
+            errorMessage.setText("");
             addToDB();
         }
 
