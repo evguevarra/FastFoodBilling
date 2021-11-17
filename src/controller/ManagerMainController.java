@@ -92,6 +92,7 @@ public class ManagerMainController implements Initializable {
     void handleLogoutBtn(MouseEvent event) {
         Stage stage = (Stage) logoutBtn.getScene().getWindow();
         stage.close();
+        System.exit(0);
     }
 
     public void loadUI(String ui){

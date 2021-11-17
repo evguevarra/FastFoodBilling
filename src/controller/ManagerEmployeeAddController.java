@@ -97,6 +97,7 @@ public class ManagerEmployeeAddController implements Initializable {
         //closeWebcam();
         //new VideoTacker().interrupt();
         //webcam.close();
+        isCapture = false;
 
         fileChooser.setTitle("Image Chooser");
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -107,6 +108,7 @@ public class ManagerEmployeeAddController implements Initializable {
 
         if(file != null){
             employeeImage.setImage(new Image(file.toURI().toString()));
+            webcam.close();
         }else{
             System.out.println("A file is invalid");
         }
@@ -257,9 +259,10 @@ public class ManagerEmployeeAddController implements Initializable {
                     if(webcam.getImage() != null) {
                         employeeImage.setImage(SwingFXUtils.toFXImage(webcam.getImage(), null));
                         sleep(30);
-                    }else{
-                        employeeImage.setImage(null);
                     }
+//                    else{
+//                        //employeeImage.imageProperty().set(null);
+//                    }
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ManagerEmployeeAddController.class.getName()).log(Level.SEVERE, null, ex);
                     isCapture = false;
