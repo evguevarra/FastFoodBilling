@@ -1,8 +1,13 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,8 +15,11 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -21,6 +29,7 @@ import model.Menu;
 import model.User;
 import repositories.DatabaseConnection;
 
+import java.beans.Visibility;
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
@@ -31,6 +40,15 @@ import java.util.ResourceBundle;
 public class CashierMainController implements Initializable {
 
     private String currentTab = "Food";
+
+    @FXML
+    private AnchorPane mainContainer;
+
+    @FXML
+    private AnchorPane nameBar;
+
+    @FXML
+    private Label categoryLabel;
 
     @FXML
     private Pane addBtn;
@@ -106,6 +124,7 @@ public class CashierMainController implements Initializable {
         loadIndicator();
         gridPane.getChildren().clear();
         loadMenuData();
+
     }
 
     @FXML
@@ -114,6 +133,7 @@ public class CashierMainController implements Initializable {
         loadIndicator();
         gridPane.getChildren().clear();
         loadMenuData();
+
     }
 
     @FXML
@@ -139,6 +159,7 @@ public class CashierMainController implements Initializable {
     }
 
     public void loadIndicator(){
+        categoryLabel.setText(currentTab);
         if(currentTab.equals("Food")){
             foodIndicator.setStyle("-fx-background-color: #FFA500; ");
             drinkIndicator.setStyle("-fx-background-color: transparent; ");
@@ -161,8 +182,6 @@ public class CashierMainController implements Initializable {
             addIndicator.setStyle( "-fx-background-color: #FFA500; ");
         }
     }
-
-
 
     private ObservableList<Menu> getData(){
         menu.clear();
@@ -201,6 +220,7 @@ public class CashierMainController implements Initializable {
                 menu.add(menuModel);
 
             }
+            preparedStatement.close();
 
         } catch (SQLException | IOException e ) {
             e.printStackTrace();
@@ -258,14 +278,17 @@ public class CashierMainController implements Initializable {
         }
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //payBtn.setGraphic();
 
         loadIndicator();
         orderScroll.setStyle("-fx-background: transparent; -fx-background-color: transparent; ");
         loadMenuData();
 
+        nameBar.setEffect(new DropShadow(5, Color.GREY));
 
     }
+
+
 }

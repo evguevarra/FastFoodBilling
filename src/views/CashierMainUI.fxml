@@ -5,7 +5,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minWidth="500.0" prefHeight="700.0" prefWidth="1315.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CashierMainController">
+<AnchorPane fx:id="mainContainer" minWidth="500.0" prefHeight="700.0" prefWidth="1315.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CashierMainController">
    <children>
       <BorderPane layoutX="35.0" layoutY="49.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C9C9C7;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -100,7 +99,7 @@
          <center>
             <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane prefHeight="100.0" prefWidth="500.0" style="-fx-background-color: white;">
+                  <AnchorPane fx:id="nameBar" prefHeight="100.0" prefWidth="500.0" style="-fx-background-color: white;">
                      <VBox.margin>
                         <Insets left="30.0" right="30.0" top="20.0" />
                      </VBox.margin>
@@ -134,17 +133,11 @@
                   </AnchorPane>
                   <AnchorPane prefWidth="200.0">
                      <children>
-                        <Label layoutX="56.0" layoutY="5.0" text="Beverages" textFill="#8a8484" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="8.0">
+                        <Label fx:id="categoryLabel" layoutX="56.0" layoutY="5.0" text="Beverages" textFill="#8a8484" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="8.0">
                            <font>
                               <Font name="System Bold" size="28.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="263.0" layoutY="15.0" promptText="Type here to search" style="-fx-background-radius: 30;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="370.0" AnchorPane.topAnchor="8.0">
-                           <padding>
-                              <Insets left="30.0" />
-                           </padding>
-                        </TextField>
-                        <FontAwesomeIconView fill="#8a8484" glyphName="SEARCH" layoutX="191.0" layoutY="33.0" />
                      </children>
                      <VBox.margin>
                         <Insets left="30.0" right="30.0" top="5.0" />
