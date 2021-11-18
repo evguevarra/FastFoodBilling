@@ -126,8 +126,6 @@ public class ManagerEmployeeAddController implements Initializable {
             }
         }
 
-
-
         fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images (*.png)", "*.png"));
         fileChooser.setTitle("Save Image");
@@ -163,7 +161,6 @@ public class ManagerEmployeeAddController implements Initializable {
             addToDB();
         }
     }
-
 
     public void addToDB(){
         try {

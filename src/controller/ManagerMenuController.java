@@ -245,6 +245,42 @@ public class ManagerMenuController implements Initializable {
     @FXML
     void handleEditBtn(ActionEvent event) {
         System.out.println("Edit");
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/views/ManagerMenuEdit.fxml"));
+            DialogPane dialogPane = fxmlLoader.load();
+
+            ManagerMenuEditController menuEditController = fxmlLoader.getController();
+            menuEditController.nameField.setText(nameLabel.getText());
+            menuEditController.priceField.setText(priceLabel.getText());
+            //menuEditController.mID = menuIDLabel.getText();
+
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(dialogPane);
+            dialog.setTitle("Edit Menu Item");
+
+
+            Optional<ButtonType> clickedBtn = dialog.showAndWait();
+            if (clickedBtn.get() == ButtonType.OK){
+
+                Alert editConfirmation = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure you want to save changes?",ButtonType.YES,ButtonType.NO);
+                editConfirmation.showAndWait();
+                if(editConfirmation.getResult()==ButtonType.YES){
+                    menuEditController.updateDb(menuIDLabel.getText());
+                    dialog.close();
+                    displayTableData();
+                    menuInfoContainer.setVisible(false);
+                }else if(editConfirmation.getResult()==ButtonType.NO){
+                    Alert success = new Alert(Alert.AlertType.INFORMATION,"Update Forfeited!");
+                    success.showAndWait();
+                }
+            }
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
