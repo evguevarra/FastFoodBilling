@@ -81,8 +81,10 @@ public class ManagerEmployeeController implements Initializable {
     private Label empIDLabel;
 
     @FXML
-    private Label nameLabel;
+    private Label fNameLabel;
 
+    @FXML
+    private Label lNameLabel;
     @FXML
     private Label positionLabel;
 
@@ -174,6 +176,58 @@ public class ManagerEmployeeController implements Initializable {
     @FXML
     void handleEditBtn(ActionEvent event) {
         System.out.println("Edit");
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/views/ManagerEmployeeEdit.fxml"));
+            DialogPane dialogPane = fxmlLoader.load();
+
+            ManagerEmployeeEditController controller = fxmlLoader.getController();
+            controller.fnField.setText(fNameLabel.getText());
+            controller.lnField.setText(lNameLabel.getText());
+
+            try{
+                connection = DatabaseConnection.connect();
+                String query = "SELECT contactNumber  FROM employee WHERE employeeID = '"+empIDLabel.getText()+"'  ";
+                preparedStatement = connection.prepareStatement(query);
+                resultSet = preparedStatement.executeQuery();
+
+                while(resultSet.next()){
+                    controller.contactField.setText(resultSet.getString("contactNumber"));
+                }
+                preparedStatement.close();
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            controller.positionCBox.setValue(positionLabel.getText());
+            //menuEditController.mID = menuIDLabel.getText();
+
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(dialogPane);
+            dialog.setTitle("Edit Employee Information");
+
+            Optional<ButtonType> clickedBtn = dialog.showAndWait();
+            if (clickedBtn.get() == ButtonType.OK){
+
+                Alert editConfirmation = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure you want to save changes?",ButtonType.YES,ButtonType.NO);
+                editConfirmation.showAndWait();
+                if(editConfirmation.getResult()==ButtonType.YES){
+                    controller.updateDb(empIDLabel.getText());
+                    dialog.close();
+                    displayTableData();
+                    empInfoContainer.setVisible(false);
+                }else if(editConfirmation.getResult()==ButtonType.NO){
+                    Alert success = new Alert(Alert.AlertType.INFORMATION,"Update Forfeited!");
+                    success.showAndWait();
+                }
+            }
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -183,7 +237,8 @@ public class ManagerEmployeeController implements Initializable {
 
             User empItem = empTable.getSelectionModel().getSelectedItem();
             empIDLabel.setText(String.valueOf(empItem.getId()));
-            nameLabel.setText(empItem.getFirstname()+" "+ empItem.getLastname());
+            fNameLabel.setText(empItem.getFirstname());
+            lNameLabel.setText(empItem.getLastname());
             positionLabel.setText(empItem.getPosition());
 
             try{

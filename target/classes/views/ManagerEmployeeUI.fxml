@@ -91,7 +91,7 @@
                            <children>
                               <ImageView fx:id="empImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true">
                                  <VBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets top="10.0" />
                                  </VBox.margin>
                               </ImageView>
                               <GridPane>
@@ -102,6 +102,7 @@
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
@@ -115,7 +116,7 @@
                                           <Insets right="30.0" />
                                        </padding>
                                     </Label>
-                                    <Label text="Position:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                    <Label text="Position:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
@@ -128,12 +129,22 @@
                                           <Insets left="20.0" />
                                        </padding>
                                     </Label>
-                                    <Label fx:id="nameLabel" text="name value" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+                                    <Label fx:id="fNameLabel" text="name value" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1">
                                        <padding>
                                           <Insets left="20.0" />
                                        </padding>
                                     </Label>
-                                    <Label fx:id="positionLabel" text="position value" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                                    <Label fx:id="positionLabel" text="position value" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label text="Last Name:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                                       <padding>
+                                          <Insets right="30.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label fx:id="lNameLabel" text="Label" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                                        <padding>
                                           <Insets left="20.0" />
                                        </padding>
