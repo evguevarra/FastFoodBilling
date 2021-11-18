@@ -110,15 +110,23 @@ public class ManagerEmployeeAddController implements Initializable {
         employeeImage.fitHeightProperty().bind(imageContainer.heightProperty());
 
         webcam = Webcam.getDefault();
-        webcam.close();
-        if(webcam == null) {
-            System.out.println("Camera not found !");
-            System.exit(-1);
-        }
-        webcam.setViewSize(new Dimension(640, 480));
-        webcam.open();
 
-        new VideoTacker().start();
+        if(webcam == null) {
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR, "No Camera Found!");
+            errorAlert.showAndWait();
+            //System.exit(-1);
+        }else{
+            if(webcam.isOpen()){
+                webcam.close();
+                closeWebcam();
+            }else{
+                webcam.setViewSize(new Dimension(640, 480));
+                webcam.open();
+                new VideoTacker().start();
+            }
+        }
+
+
 
         fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images (*.png)", "*.png"));

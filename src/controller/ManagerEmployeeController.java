@@ -119,6 +119,8 @@ public class ManagerEmployeeController implements Initializable {
             if (clickedBtn.get() == ButtonType.OK){
                 employeeAddController.empCreation();
                 dialog.close();
+                displayTableData();
+                empInfoContainer.setVisible(false);
             }if (clickedBtn.get() == ButtonType.CANCEL){
 
                 employeeAddController.closeWebcam();
@@ -146,6 +148,27 @@ public class ManagerEmployeeController implements Initializable {
     @FXML
     void handleDeleteBtn(ActionEvent event) {
         System.out.println("Delete");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the account? Warning: Deletion cannot be undone!",
+                ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if(alert.getResult() == ButtonType.YES){
+            try{
+                connection = DatabaseConnection.connect();
+                String sql = "DELETE FROM employee WHERE employeeID = '"+empIDLabel.getText()+"'";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.executeUpdate();
+                Alert done = new Alert(Alert.AlertType.INFORMATION, "Item Deleted!");
+                done.showAndWait();
+
+                preparedStatement.close();
+                displayTableData();
+                empInfoContainer.setVisible(false);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
