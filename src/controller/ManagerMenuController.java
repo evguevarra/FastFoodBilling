@@ -118,8 +118,13 @@ public class ManagerMenuController implements Initializable {
             dialog.setDialogPane(dialogPane);
             dialog.setTitle("Add Menu Item");
 
-//            Optional<ButtonType> clickedBtn =
-            dialog.showAndWait();
+            Optional<ButtonType> clickedBtn = dialog.showAndWait();
+            if (clickedBtn.get() == ButtonType.OK){
+                menuAddController.addToDB();
+                dialog.close();
+                displayTableData();
+                menuInfoContainer.setVisible(false);
+            }
 
 
 
@@ -213,7 +218,28 @@ public class ManagerMenuController implements Initializable {
 
     @FXML
     void handleDeleteBtn(ActionEvent event) {
-        System.out.println("Delete");
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the item? Warning: Deletion cannot be undone!",
+                ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if(alert.getResult() == ButtonType.YES){
+            try{
+                connection = DatabaseConnection.connect();
+                String sql = "DELETE FROM menu WHERE menuID = '"+menuIDLabel.getText()+"'";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.executeUpdate();
+                Alert done = new Alert(Alert.AlertType.INFORMATION, "Item Deleted!");
+                done.showAndWait();
+
+                preparedStatement.close();
+                displayTableData();
+                menuInfoContainer.setVisible(false);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML

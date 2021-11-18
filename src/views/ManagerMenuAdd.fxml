@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonType?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DialogPane?>
@@ -69,11 +68,7 @@
                         <Label fx:id="errorMessage" alignment="CENTER" layoutX="252.0" textFill="#e40a0a" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
                      </children>
                   </AnchorPane>
-                  <HBox alignment="CENTER">
-                     <children>
-                        <Button fx:id="addBtn" mnemonicParsing="false" onAction="#handleAddBtn" style="-fx-background-color: orange;" text="Add to Database" textFill="WHITE" />
-                     </children>
-                  </HBox>
+                  <HBox alignment="CENTER" />
                </children>
             </VBox>
          </children>
@@ -81,5 +76,6 @@
    </content>
    <buttonTypes>
       <ButtonType fx:constant="CANCEL" />
+      <ButtonType fx:constant="OK" />
    </buttonTypes>
 </DialogPane>

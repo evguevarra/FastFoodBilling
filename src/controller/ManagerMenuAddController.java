@@ -72,56 +72,65 @@ public class ManagerMenuAddController implements Initializable {
     }
 
 
-    @FXML
-    void handleAddBtn(ActionEvent event) {
+//    @FXML
+//    void handleAddBtn(ActionEvent event) {
+//        if(menuNameField.getText().isEmpty() || priceField.getText().isEmpty() || categoryCBox.getValue().isEmpty()){
+//            errorMessage.setText("Please Fillup all Fields");
+//        }else{
+//            errorMessage.setText("");
+//            addToDB();
+//        }
+//
+//    }
+
+    public void addToDB(){
         if(menuNameField.getText().isEmpty() || priceField.getText().isEmpty() || categoryCBox.getValue().isEmpty()){
             errorMessage.setText("Please Fillup all Fields");
         }else{
             errorMessage.setText("");
-            addToDB();
-        }
-
-    }
-
-    public void addToDB(){
-        try {
-            Connection connection = DatabaseConnection.connect();
-            String query = "INSERT INTO menu(menuName,menuPrice,menuCategory,menuImage) VALUES(?,?,?,?)";
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, menuNameField.getText());
-            preparedStatement.setString(2, priceField.getText());
-            preparedStatement.setString(3,categoryCBox.getValue());
-
-            byte[] byteImage = null;
-            fis = new FileInputStream(file);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            byte[] buf = new byte[1024];
-
-            try{
-                for(int readNum; (readNum = fis.read(buf)) != -1;){
-                    bos.write(buf,0,readNum);
-                    System.out.println("read"+ readNum + "bytes,");
-                }
-            }catch (IOException exception){
-                exception.printStackTrace();
-            }
-            byteImage = bos.toByteArray();
-
-            preparedStatement.setBytes(4, byteImage);
-            preparedStatement.executeUpdate();
-
-
-            preparedStatement.close();
-
-        } catch (SQLException | FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
             try {
+                Connection connection = DatabaseConnection.connect();
+                String query = "INSERT INTO menu(menuName,menuPrice,menuCategory,menuImage) VALUES(?,?,?,?)";
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, menuNameField.getText());
+                preparedStatement.setString(2, priceField.getText());
+                preparedStatement.setString(3,categoryCBox.getValue());
+
+                byte[] byteImage = null;
+                fis = new FileInputStream(file);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+
+                try{
+                    for(int readNum; (readNum = fis.read(buf)) != -1;){
+                        bos.write(buf,0,readNum);
+                        System.out.println("read"+ readNum + "bytes,");
+                    }
+                }catch (IOException exception){
+                    exception.printStackTrace();
+                }
+                byteImage = bos.toByteArray();
+
+                preparedStatement.setBytes(4, byteImage);
+                preparedStatement.executeUpdate();
+
+                Alert success = new Alert(Alert.AlertType.INFORMATION,"Menu Item Added!");
+                success.showAndWait();
+
+
                 preparedStatement.close();
-            }catch (Exception e){
+
+            } catch (SQLException | FileNotFoundException e) {
                 e.printStackTrace();
+            } finally {
+                try {
+                    preparedStatement.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
+
     }
 
     public void printAdd(){
