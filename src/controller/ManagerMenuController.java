@@ -14,15 +14,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import model.Menu;
+import model.User;
 import repositories.DatabaseConnection;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -48,9 +52,6 @@ public class ManagerMenuController implements Initializable {
 
     @FXML
     private FontAwesomeIconView clearText;
-
-    @FXML
-    private JFXButton addItemBtn;
 
     @FXML
     private Label addOnsBtn;
@@ -80,10 +81,24 @@ public class ManagerMenuController implements Initializable {
     private TableView<Menu> menuTable;
 
     @FXML
-    private VBox orderContainer;
+    private Label menuIDLabel;
 
     @FXML
-    private JFXButton refreshBtn;
+    private ImageView menuImage;
+
+    @FXML
+    private VBox menuInfoContainer;
+
+    @FXML
+    private Label nameLabel;
+
+    @FXML
+    private Label priceLabel;
+
+    Connection connection;
+    PreparedStatement preparedStatement;
+    ResultSet resultSet;
+
 
     ObservableList<Menu> observableList = FXCollections.observableArrayList();
 
@@ -161,6 +176,7 @@ public class ManagerMenuController implements Initializable {
     @FXML
     void handleRefreshBtn(ActionEvent event) {
         displayTableData();
+        menuInfoContainer.setVisible(false);
     }
 
     @FXML
@@ -195,15 +211,61 @@ public class ManagerMenuController implements Initializable {
         menuTable.setItems(sortedList);
     }
 
+    @FXML
+    void handleDeleteBtn(ActionEvent event) {
+        System.out.println("Delete");
+    }
+
+    @FXML
+    void handleEditBtn(ActionEvent event) {
+        System.out.println("Edit");
+    }
+
+    @FXML
+    void handleTableClick(MouseEvent event) {
+        if(menuTable.getSelectionModel().getSelectedItem() != null){
+            menuInfoContainer.setVisible(true);
+
+            Menu menuItem = menuTable.getSelectionModel().getSelectedItem();
+            menuIDLabel.setText(String.valueOf(menuItem.getId()));
+            nameLabel.setText(menuItem.getName());
+            priceLabel.setText(String.valueOf(menuItem.getPrice()));
+
+            try{
+                connection = DatabaseConnection.connect();
+                String query = "SELECT menuImage  FROM menu WHERE menuID = '"+menuItem.getId()+"'  ";
+                preparedStatement = connection.prepareStatement(query);
+                resultSet = preparedStatement.executeQuery();
+
+                while(resultSet.next()){
+                    InputStream input = resultSet.getBinaryStream("menuImage");
+
+                    if(input != null && input.available() > 1){
+                        Image img = new Image(input);
+                        menuImage.setImage(img);
+                    }
+                }
+                preparedStatement.close();
+
+
+
+            } catch (SQLException | IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
     public void displayTableData(){
         observableList.clear();
         //menuTable.getItems().clear();
 
         try {
-            Connection connection = DatabaseConnection.connect();
+            connection = DatabaseConnection.connect();
             String query = "SELECT menuID, menuName, menuPrice,menuCategory FROM menu WHERE menuCategory ='"+currentCategory+"' ";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
                 int mID = resultSet.getInt("menuID");
@@ -252,7 +314,7 @@ public class ManagerMenuController implements Initializable {
         addOnsBtn.setTextFill(Color.GREY);
 
         removeSearchFocus();
-
+        menuInfoContainer.setVisible(false);
         displayTableData();
 
     }

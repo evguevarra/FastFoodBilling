@@ -177,7 +177,7 @@ public class ManagerEmployeeController implements Initializable {
                         empImage.setImage(img);
                     }
                 }
-
+                preparedStatement.close();
 
 
             } catch (SQLException | IOException e) {
