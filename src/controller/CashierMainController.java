@@ -13,9 +13,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,6 +25,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import main.MyListener;
 import model.Menu;
+import model.Order;
 import model.User;
 import repositories.DatabaseConnection;
 
@@ -93,15 +93,6 @@ public class CashierMainController implements Initializable {
     private GridPane gridPane;
 
     @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
-    private VBox orderContainer;
-
-    @FXML
-    private ScrollPane orderScroll;
-
-    @FXML
     private JFXButton payBtn;
 
     @FXML
@@ -113,10 +104,35 @@ public class CashierMainController implements Initializable {
     @FXML
     private Label logoutBtn;
 
+    @FXML
+    private TableColumn<Order, Integer> orderMID;
+
+    @FXML
+    private TableColumn<Order, String> orderMName;
+
+    @FXML
+    private TableColumn<Order, Double> orderPrice;
+
+    @FXML
+    private TableColumn<Order, Spinner> orderQty;
+
+    @FXML
+    private TableColumn<Order, Button> removeColumn;
+
+    @FXML
+    private TableView<Order> orderTable;
+
+    private double itemTotal;
+    private double subTotal;
+    private double totalAmount;
 
     private MyListener myListener;
 
     private ObservableList<Menu> menu = FXCollections.observableArrayList();
+    private ObservableList<Order> orders = FXCollections.observableArrayList();
+
+    Menu menuModel;
+    Order orderModel;
 
     @FXML
     void handleAddonBtn(MouseEvent event) {
@@ -158,6 +174,13 @@ public class CashierMainController implements Initializable {
         stage.close();
     }
 
+    @FXML
+    void handleOrderTable(MouseEvent event) {
+//        if(orders.isEmpty()) {
+//            calculate(menuModel.getPrice(), (Integer) orderModel.getQty().getValue());
+//        }
+    }
+
     public void loadIndicator(){
         categoryLabel.setText(currentTab);
         if(currentTab.equals("Food")){
@@ -186,7 +209,7 @@ public class CashierMainController implements Initializable {
     private ObservableList<Menu> getData(){
         menu.clear();
         ObservableList<Menu> menu = FXCollections.observableArrayList();
-        Menu menuModel;
+
 
 
         try {
@@ -240,16 +263,59 @@ public class CashierMainController implements Initializable {
                 @Override
                 public void onClickListener(Menu menu) {
                     try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("/views/CashierOrderTabCard.fxml"));
-                        AnchorPane aPane = fxmlLoader.load();
+                        int mID = 0;
 
-                        CashierOrderTabController orderController = fxmlLoader.getController();
-                        orderController.setOrderItemName(menu.getName());
+                        
+                        Connection connection = DatabaseConnection.connect();
+                        String query = "SELECT menuID  FROM menu WHERE menuName = '"+menu.getName()+"'";
+                        PreparedStatement preparedStatement = connection.prepareStatement(query);
+                        ResultSet resultSet = preparedStatement.executeQuery();
 
-                        orderContainer.getChildren().add(aPane);
-                        orderContainer.setSpacing(10);
-                    }catch (IOException e) {
+                        while(resultSet.next()){
+                            mID = resultSet.getInt("menuID");
+                        }
+                        orderModel = new Order(mID,menu.getName(), menu.getPrice());
+                        orders.add(orderModel);
+                        populateOrderTable();
+
+                        updateQty(menu.getPrice(),(Integer) orderModel.getQty().getValue());
+                        calculate(true);
+
+//                        orderModel.getQty().focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+//                            calculate(menu.getPrice(), (Integer) orderModel.getQty().getValue());
+////                            if(isNowFocused){
+////                                calculate(menu.getPrice(), (Integer) orderModel.getQty().getValue());
+////                            }
+//                        });
+
+                        orderModel.getQty().valueProperty().addListener((observable, oldValue, newValue)->{
+                            updateQty(menu.getPrice(),(Integer) orderModel.getQty().getValue());
+                            if((Integer)oldValue< (Integer)newValue){
+                                calculate(true);
+                            }
+                            if((Integer)oldValue > (Integer)newValue){
+                                calculate(false);
+                            }
+                        });
+
+
+                        preparedStatement.close();
+
+
+//                        FXMLLoader fxmlLoader = new FXMLLoader();
+//                        fxmlLoader.setLocation(getClass().getResource("/views/CashierOrderTabCard.fxml"));
+//                        AnchorPane aPane = fxmlLoader.load();
+//
+//                        CashierOrderTabController orderController = fxmlLoader.getController();
+//                        orderController.setOrderItemName(menu.getName());
+//                        calculate(menu.getPrice(), orderController.getQty());
+//
+//
+//
+//
+//                        orderContainer.getChildren().add(aPane);
+//                        orderContainer.setSpacing(10);
+                    }catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -277,16 +343,48 @@ public class CashierMainController implements Initializable {
             e.printStackTrace();
         }
     }
+    public void updateQty(double price, int qty){
+        itemTotal = (price * qty);
+    }
+
+    public void calculate(boolean isAdd){
+
+        if(isAdd == true){
+            subTotal += itemTotal;
+        }else{
+            subTotal -= itemTotal;
+        }
+
+        subTotal += itemTotal;
+        totalAmount = subTotal + (subTotal * 0.12);
+
+        subtotalValue.setText(String.valueOf(subTotal));
+        totalValue.setText(String.valueOf(totalAmount));
+    }
+
+    public void populateOrderTable(){
+        orderMID.setCellValueFactory(new PropertyValueFactory<Order, Integer>("id"));
+        orderMName.setCellValueFactory(new PropertyValueFactory<Order, String>("name"));
+        orderQty.setCellValueFactory(new PropertyValueFactory<Order, Spinner>("qty"));
+        orderPrice.setCellValueFactory(new PropertyValueFactory<Order, Double>("price"));
+        removeColumn.setCellValueFactory(new PropertyValueFactory<Order, Button>("button"));
+
+
+
+    }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         loadIndicator();
-        orderScroll.setStyle("-fx-background: transparent; -fx-background-color: transparent; ");
+        //orderScroll.setStyle("-fx-background: transparent; -fx-background-color: transparent; ");
         loadMenuData();
 
         nameBar.setEffect(new DropShadow(5, Color.GREY));
+
+        populateOrderTable();
+        orderTable.setItems(orders);
 
     }
 

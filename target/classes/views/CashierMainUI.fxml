@@ -5,6 +5,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -176,14 +178,22 @@
                                           </Label>
                                        </children>
                                     </AnchorPane>
-                                    <ScrollPane fx:id="orderScroll" maxHeight="230.0" minWidth="350.0" prefHeight="350.0">
+                                    <AnchorPane>
                                        <VBox.margin>
                                           <Insets left="20.0" right="30.0" top="5.0" />
                                        </VBox.margin>
-                                       <content>
-                                          <VBox fx:id="orderContainer" />
-                                       </content>
-                                    </ScrollPane>
+                                       <children>
+                                          <TableView fx:id="orderTable" onMouseClicked="#handleOrderTable" prefHeight="234.0" prefWidth="350.0">
+                                            <columns>
+                                              <TableColumn fx:id="orderMID" prefWidth="39.0" text="MID" />
+                                              <TableColumn fx:id="orderMName" prefWidth="136.0" text="Menu Name" />
+                                                <TableColumn fx:id="orderQty" prefWidth="65.0" text="QTY" />
+                                                <TableColumn fx:id="orderPrice" prefWidth="65.0" text="Price/Item" />
+                                                <TableColumn fx:id="removeColumn" prefWidth="44.0" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
                                     <AnchorPane style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets bottom="20.0" left="20.0" right="30.0" top="10.0" />
