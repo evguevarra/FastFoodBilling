@@ -185,11 +185,11 @@
                                        <children>
                                           <TableView fx:id="orderTable" onMouseClicked="#handleOrderTable" prefHeight="234.0" prefWidth="350.0">
                                             <columns>
-                                              <TableColumn fx:id="orderMID" prefWidth="39.0" text="MID" />
-                                              <TableColumn fx:id="orderMName" prefWidth="136.0" text="Menu Name" />
-                                                <TableColumn fx:id="orderQty" prefWidth="65.0" text="QTY" />
-                                                <TableColumn fx:id="orderPrice" prefWidth="65.0" text="Price/Item" />
-                                                <TableColumn fx:id="removeColumn" prefWidth="44.0" />
+                                              <TableColumn fx:id="orderMID" prefWidth="41.0" text="MID" />
+                                              <TableColumn fx:id="orderMName" prefWidth="152.0" text="Menu Name" />
+                                                <TableColumn fx:id="orderQty" prefWidth="42.0" text="QTY" />
+                                                <TableColumn fx:id="orderPrice" prefWidth="51.0" text="Price" />
+                                                <TableColumn fx:id="orderTotal" prefWidth="63.0" text="Total" />
                                             </columns>
                                           </TableView>
                                        </children>

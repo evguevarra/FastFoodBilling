@@ -35,6 +35,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CashierMainController implements Initializable {
@@ -114,15 +115,14 @@ public class CashierMainController implements Initializable {
     private TableColumn<Order, Double> orderPrice;
 
     @FXML
-    private TableColumn<Order, Spinner> orderQty;
+    private TableColumn<Order, Double> orderTotal;
 
     @FXML
-    private TableColumn<Order, Button> removeColumn;
+    private TableColumn<Order, Spinner> orderQty;
 
     @FXML
     private TableView<Order> orderTable;
 
-    private double itemTotal;
     private double subTotal;
     private double totalAmount;
 
@@ -262,61 +262,39 @@ public class CashierMainController implements Initializable {
             myListener = new MyListener() {
                 @Override
                 public void onClickListener(Menu menu) {
-                    try {
-                        int mID = 0;
 
-                        
-                        Connection connection = DatabaseConnection.connect();
-                        String query = "SELECT menuID  FROM menu WHERE menuName = '"+menu.getName()+"'";
-                        PreparedStatement preparedStatement = connection.prepareStatement(query);
-                        ResultSet resultSet = preparedStatement.executeQuery();
+                    TextInputDialog inputDialog = new TextInputDialog();
+                    inputDialog.setTitle("QTY");
+                    inputDialog.setContentText("Enter Qty:");
 
-                        while(resultSet.next()){
-                            mID = resultSet.getInt("menuID");
+                    Optional<String> result = inputDialog.showAndWait();
+
+                    if(result.isPresent()){
+
+                        int resValue = Integer.parseInt(result.get());
+                        double computedPrice =  menu.getPrice() * resValue;
+                        try {
+                            int mID = 0;
+
+
+                            Connection connection = DatabaseConnection.connect();
+                            String query = "SELECT menuID  FROM menu WHERE menuName = '"+menu.getName()+"'";
+                            PreparedStatement preparedStatement = connection.prepareStatement(query);
+                            ResultSet resultSet = preparedStatement.executeQuery();
+
+                            while(resultSet.next()){
+                                mID = resultSet.getInt("menuID");
+                            }
+                            orderModel = new Order(mID,menu.getName(),resValue, menu.getPrice(),computedPrice);
+                            orders.add(orderModel);
+                            populateOrderTable();
+                            calculate(computedPrice);
+
+                            preparedStatement.close();
+
+                        }catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        orderModel = new Order(mID,menu.getName(), menu.getPrice());
-                        orders.add(orderModel);
-                        populateOrderTable();
-
-                        updateQty(menu.getPrice(),(Integer) orderModel.getQty().getValue());
-                        calculate(true);
-
-//                        orderModel.getQty().focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-//                            calculate(menu.getPrice(), (Integer) orderModel.getQty().getValue());
-////                            if(isNowFocused){
-////                                calculate(menu.getPrice(), (Integer) orderModel.getQty().getValue());
-////                            }
-//                        });
-
-                        orderModel.getQty().valueProperty().addListener((observable, oldValue, newValue)->{
-                            updateQty(menu.getPrice(),(Integer) orderModel.getQty().getValue());
-                            if((Integer)oldValue< (Integer)newValue){
-                                calculate(true);
-                            }
-                            if((Integer)oldValue > (Integer)newValue){
-                                calculate(false);
-                            }
-                        });
-
-
-                        preparedStatement.close();
-
-
-//                        FXMLLoader fxmlLoader = new FXMLLoader();
-//                        fxmlLoader.setLocation(getClass().getResource("/views/CashierOrderTabCard.fxml"));
-//                        AnchorPane aPane = fxmlLoader.load();
-//
-//                        CashierOrderTabController orderController = fxmlLoader.getController();
-//                        orderController.setOrderItemName(menu.getName());
-//                        calculate(menu.getPrice(), orderController.getQty());
-//
-//
-//
-//
-//                        orderContainer.getChildren().add(aPane);
-//                        orderContainer.setSpacing(10);
-                    }catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
             };
@@ -343,17 +321,8 @@ public class CashierMainController implements Initializable {
             e.printStackTrace();
         }
     }
-    public void updateQty(double price, int qty){
-        itemTotal = (price * qty);
-    }
 
-    public void calculate(boolean isAdd){
-
-        if(isAdd == true){
-            subTotal += itemTotal;
-        }else{
-            subTotal -= itemTotal;
-        }
+    public void calculate(double itemTotal){
 
         subTotal += itemTotal;
         totalAmount = subTotal + (subTotal * 0.12);
@@ -367,7 +336,8 @@ public class CashierMainController implements Initializable {
         orderMName.setCellValueFactory(new PropertyValueFactory<Order, String>("name"));
         orderQty.setCellValueFactory(new PropertyValueFactory<Order, Spinner>("qty"));
         orderPrice.setCellValueFactory(new PropertyValueFactory<Order, Double>("price"));
-        removeColumn.setCellValueFactory(new PropertyValueFactory<Order, Button>("button"));
+        orderTotal.setCellValueFactory(new PropertyValueFactory<Order, Double>("computedPrice"));
+        //removeColumn.setCellValueFactory(new PropertyValueFactory<Order, Button>("button"));
 
 
 
