@@ -19,6 +19,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -106,6 +107,9 @@ public class CashierMainController implements Initializable {
     private Label logoutBtn;
 
     @FXML
+    private FontAwesomeIconView deleteOrderBtn;
+
+    @FXML
     private TableColumn<Order, Integer> orderMID;
 
     @FXML
@@ -176,9 +180,12 @@ public class CashierMainController implements Initializable {
 
     @FXML
     void handleOrderTable(MouseEvent event) {
-//        if(orders.isEmpty()) {
-//            calculate(menuModel.getPrice(), (Integer) orderModel.getQty().getValue());
-//        }
+
+    }
+
+    @FXML
+    void deleteOrder(MouseEvent event) {
+
     }
 
     public void loadIndicator(){
@@ -337,7 +344,6 @@ public class CashierMainController implements Initializable {
         orderQty.setCellValueFactory(new PropertyValueFactory<Order, Spinner>("qty"));
         orderPrice.setCellValueFactory(new PropertyValueFactory<Order, Double>("price"));
         orderTotal.setCellValueFactory(new PropertyValueFactory<Order, Double>("computedPrice"));
-        //removeColumn.setCellValueFactory(new PropertyValueFactory<Order, Button>("button"));
 
 
 
@@ -352,7 +358,6 @@ public class CashierMainController implements Initializable {
         loadMenuData();
 
         nameBar.setEffect(new DropShadow(5, Color.GREY));
-
         populateOrderTable();
         orderTable.setItems(orders);
 

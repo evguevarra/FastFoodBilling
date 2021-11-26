@@ -171,11 +171,12 @@
                                           <Insets left="20.0" right="30.0" top="10.0" />
                                        </VBox.margin>
                                        <children>
-                                          <Label alignment="CENTER" layoutX="164.0" layoutY="22.0" text="Order List" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="15.0">
+                                          <Label alignment="CENTER" layoutX="124.0" layoutY="15.0" text="Order List" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="15.0">
                                              <font>
                                                 <Font name="System Bold" size="22.0" />
                                              </font>
                                           </Label>
+                                          <FontAwesomeIconView fx:id="deleteOrderBtn" fill="#fffafa" glyphName="TRASH" layoutX="310.0" layoutY="39.0" onMouseClicked="#deleteOrder" size="25" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane>
