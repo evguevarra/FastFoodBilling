@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -191,6 +192,11 @@ public class CashierMainController implements Initializable {
         calculate(toDeduct,false);
         orderTable.getItems().remove(selectedItem);
 
+
+    }
+
+    @FXML
+    void handleBillPay(ActionEvent event) {
 
     }
 
