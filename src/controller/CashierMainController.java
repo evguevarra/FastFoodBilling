@@ -185,6 +185,12 @@ public class CashierMainController implements Initializable {
 
     @FXML
     void deleteOrder(MouseEvent event) {
+//        System.out.println("delete");
+        Order selectedItem = orderTable.getSelectionModel().getSelectedItem();
+        double toDeduct = orderTable.getSelectionModel().getSelectedItem().getComputedPrice();
+        calculate(toDeduct,false);
+        orderTable.getItems().remove(selectedItem);
+
 
     }
 
@@ -295,7 +301,7 @@ public class CashierMainController implements Initializable {
                             orderModel = new Order(mID,menu.getName(),resValue, menu.getPrice(),computedPrice);
                             orders.add(orderModel);
                             populateOrderTable();
-                            calculate(computedPrice);
+                            calculate(computedPrice,true);
 
                             preparedStatement.close();
 
@@ -329,9 +335,13 @@ public class CashierMainController implements Initializable {
         }
     }
 
-    public void calculate(double itemTotal){
+    public void calculate(double itemTotal,boolean isAdd){
+        if(isAdd == true){
+            subTotal += itemTotal;
+        }else {
+            subTotal -= itemTotal;
+        }
 
-        subTotal += itemTotal;
         totalAmount = subTotal + (subTotal * 0.12);
 
         subtotalValue.setText(String.valueOf(subTotal));
