@@ -14,6 +14,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
@@ -24,7 +26,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import main.MyListener;
 import model.Menu;
 import model.Order;
@@ -35,10 +39,10 @@ import java.beans.Visibility;
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class CashierMainController implements Initializable {
 
@@ -126,7 +130,7 @@ public class CashierMainController implements Initializable {
     private TableColumn<Order, Spinner> orderQty;
 
     @FXML
-    private TableView<Order> orderTable;
+    public TableView<Order> orderTable;
 
     private double subTotal;
     private double totalAmount;
@@ -197,7 +201,67 @@ public class CashierMainController implements Initializable {
 
     @FXML
     void handleBillPay(ActionEvent event) {
+        TextInputDialog inputDialog = new TextInputDialog();
+        inputDialog.setTitle("Enter Cash Tethered");
+        inputDialog.setHeaderText("");
+        inputDialog.setContentText("Cash Tethered:");
 
+
+        Optional<String> result = inputDialog.showAndWait();
+
+        if(result.isPresent()){
+            int cashTethered = Integer.parseInt(result.get());
+            System.out.println(cashTethered);
+            Parent root = null;
+            String orderText = "";
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/CashierBillSummary.fxml"));
+                root = fxmlLoader.load();
+                //root = fxmlLoader.load(LoginLoadingController.class.getResource("/views/CashierBillSummary.fxml"));
+                CashierBillSummaryController cController = fxmlLoader.getController();
+
+                List<List<String>> list = new ArrayList<>();
+
+                for (int i =0; i<orderTable.getItems().size();i++){
+                    orderModel= orderTable.getItems().get(i);
+                    list.add(new ArrayList<>());
+                    if(i>0) {
+                        list.get(i).add("\t\t"+String.valueOf(orderModel.getQty()) + " x ");
+                        list.get(i).add(orderModel.getName() + "\t");
+                        list.get(i).add(String.valueOf(orderModel.getComputedPrice()) + "\n");
+                    }else{
+                        list.get(i).add(String.valueOf(orderModel.getQty()) + " x ");
+                        list.get(i).add(orderModel.getName() + "\t");
+                        list.get(i).add(String.valueOf(orderModel.getComputedPrice()) + "\n");
+                    }
+                }
+                for(int i =0; i<list.size();i++) {
+                    for (int j = 0; j < list.get(i).size(); j++) {
+                        orderText += list.get(i).get(j);
+                    }
+                }
+                cController.setOrderText(orderText);
+                System.out.println(orderText);
+
+
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                String formattedDateTime = currentDateTime.format(formatter);
+                //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+//                controller.date =  formattedDateTime;
+//                controller.cashier = "Edison Guevarra";
+
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.show();
+                stage.centerOnScreen();
+
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
     }
 
     public void loadIndicator(){

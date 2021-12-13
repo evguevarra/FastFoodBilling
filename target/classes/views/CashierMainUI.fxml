@@ -214,7 +214,7 @@
                                                 <Font name="System Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXButton fx:id="payBtn" layoutX="271.0" layoutY="115.0" prefWidth="120.0" style="-fx-background-color: cadetblue;" text="Pay Now" textFill="WHITE" AnchorPane.rightAnchor="35.0" />
+                                          <JFXButton fx:id="payBtn" layoutX="271.0" layoutY="115.0" onAction="#handleBillPay" prefWidth="120.0" style="-fx-background-color: cadetblue;" text="Pay Now" textFill="WHITE" AnchorPane.rightAnchor="35.0" />
                                           <FontAwesomeIconView fill="WHITE" glyphName="MONEY" layoutX="207.0" layoutY="132.0" />
                                        </children>
                                     </AnchorPane>
