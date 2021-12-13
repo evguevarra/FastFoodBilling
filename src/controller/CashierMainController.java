@@ -240,7 +240,7 @@ public class CashierMainController implements Initializable {
                         orderText += list.get(i).get(j);
                     }
                 }
-                cController.setOrderText(orderText);
+                cController.setOrderText(orderText,subtotalValue.getText(),totalValue.getText(),cashTethered);
                 System.out.println(orderText);
 
 
@@ -414,8 +414,8 @@ public class CashierMainController implements Initializable {
 
         totalAmount = subTotal + (subTotal * 0.12);
 
-        subtotalValue.setText(String.valueOf(subTotal));
-        totalValue.setText(String.valueOf(totalAmount));
+        subtotalValue.setText(String.valueOf(String.format("%.2f", subTotal)));
+        totalValue.setText(String.valueOf(String.format("%.2f", totalAmount)));
     }
 
     public void populateOrderTable(){
