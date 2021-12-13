@@ -20,6 +20,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import model.Menu;
 import model.User;
 import repositories.DatabaseConnection;
@@ -37,6 +38,8 @@ import java.util.ResourceBundle;
 public class ManagerEmployeeController implements Initializable {
 
     final BooleanProperty fTime = new SimpleBooleanProperty(true);
+
+
 
     @FXML
     private AnchorPane mainContainer;

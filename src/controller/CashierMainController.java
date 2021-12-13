@@ -2,6 +2,7 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -26,6 +27,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -48,8 +51,15 @@ public class CashierMainController implements Initializable {
 
     private String currentTab = "Food";
 
+    Connection connection = DatabaseConnection.connect();
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+
     @FXML
     private AnchorPane mainContainer;
+
+    @FXML
+    private Circle circleImage;
 
     @FXML
     private AnchorPane nameBar;
@@ -132,6 +142,9 @@ public class CashierMainController implements Initializable {
     @FXML
     public TableView<Order> orderTable;
 
+    @FXML
+    private Label clearBtn;
+
     private double subTotal;
     private double totalAmount;
 
@@ -190,13 +203,35 @@ public class CashierMainController implements Initializable {
 
     @FXML
     void deleteOrder(MouseEvent event) {
-//        System.out.println("delete");
+
         Order selectedItem = orderTable.getSelectionModel().getSelectedItem();
         double toDeduct = orderTable.getSelectionModel().getSelectedItem().getComputedPrice();
         calculate(toDeduct,false);
         orderTable.getItems().remove(selectedItem);
+        checkOrderEmpty();
 
 
+    }
+
+    @FXML
+    void handleClearBtn(MouseEvent event) {
+        System.out.println("clear");
+        orderTable.getItems().clear();
+        subtotalValue.setText("0.00");
+        totalValue.setText("0.00");
+        subTotal = 0.00;
+        totalAmount = 0.00;
+        checkOrderEmpty();
+    }
+
+    @FXML
+    void clearEntered(MouseEvent event) {
+        clearBtn.setTextFill(Color.GREY);
+    }
+
+    @FXML
+    void clearExited(MouseEvent event) {
+        clearBtn.setTextFill(Color.WHITE);
     }
 
     @FXML
@@ -212,54 +247,57 @@ public class CashierMainController implements Initializable {
         if(result.isPresent()){
             int cashTethered = Integer.parseInt(result.get());
             System.out.println(cashTethered);
-            Parent root = null;
-            String orderText = "";
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/CashierBillSummary.fxml"));
-                root = fxmlLoader.load();
-                //root = fxmlLoader.load(LoginLoadingController.class.getResource("/views/CashierBillSummary.fxml"));
-                CashierBillSummaryController cController = fxmlLoader.getController();
 
-                List<List<String>> list = new ArrayList<>();
+            if(cashTethered > Double.parseDouble(totalValue.getText())) {
+                Parent root = null;
+                String orderText = "";
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/CashierBillSummary.fxml"));
+                    root = fxmlLoader.load();
+                    //root = fxmlLoader.load(LoginLoadingController.class.getResource("/views/CashierBillSummary.fxml"));
+                    CashierBillSummaryController cController = fxmlLoader.getController();
 
-                for (int i =0; i<orderTable.getItems().size();i++){
-                    orderModel= orderTable.getItems().get(i);
-                    list.add(new ArrayList<>());
-                    if(i>0) {
-                        list.get(i).add("\t\t"+String.valueOf(orderModel.getQty()) + " x ");
-                        list.get(i).add(orderModel.getName() + "\t");
-                        list.get(i).add(String.valueOf(orderModel.getComputedPrice()) + "\n");
-                    }else{
-                        list.get(i).add(String.valueOf(orderModel.getQty()) + " x ");
-                        list.get(i).add(orderModel.getName() + "\t");
-                        list.get(i).add(String.valueOf(orderModel.getComputedPrice()) + "\n");
+                    List<List<String>> list = new ArrayList<>();
+
+                    for (int i = 0; i < orderTable.getItems().size(); i++) {
+                        orderModel = orderTable.getItems().get(i);
+                        list.add(new ArrayList<>());
+                        if (i > 0) {
+                            list.get(i).add("\t\t" + String.valueOf(orderModel.getQty()) + " x ");
+                            list.get(i).add(orderModel.getName() + "\t");
+                            list.get(i).add(String.valueOf(orderModel.getComputedPrice()) + "\n");
+                        } else {
+                            list.get(i).add(String.valueOf(orderModel.getQty()) + " x ");
+                            list.get(i).add(orderModel.getName() + "\t");
+                            list.get(i).add(String.valueOf(orderModel.getComputedPrice()) + "\n");
+                        }
                     }
-                }
-                for(int i =0; i<list.size();i++) {
-                    for (int j = 0; j < list.get(i).size(); j++) {
-                        orderText += list.get(i).get(j);
+                    for (int i = 0; i < list.size(); i++) {
+                        for (int j = 0; j < list.get(i).size(); j++) {
+                            orderText += list.get(i).get(j);
+                        }
                     }
+                    cController.setOrderText(orderText, subtotalValue.getText(), totalValue.getText(), cashTethered, employeeName.getText());
+                    System.out.println(orderText);
+
+
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.setTitle("Receipt");
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.show();
+                    stage.centerOnScreen();
+
+                } catch (IOException exception) {
+                    exception.printStackTrace();
                 }
-                cController.setOrderText(orderText,subtotalValue.getText(),totalValue.getText(),cashTethered);
-                System.out.println(orderText);
-
-
-                LocalDateTime currentDateTime = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                String formattedDateTime = currentDateTime.format(formatter);
-                //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-//                controller.date =  formattedDateTime;
-//                controller.cashier = "Edison Guevarra";
-
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.show();
-                stage.centerOnScreen();
-
-            } catch (IOException exception) {
-                exception.printStackTrace();
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("");
+                alert.setContentText("Insufficient Cash!");
+                alert.showAndWait();
             }
         }
     }
@@ -294,12 +332,10 @@ public class CashierMainController implements Initializable {
         ObservableList<Menu> menu = FXCollections.observableArrayList();
 
 
-
         try {
-            Connection connection = DatabaseConnection.connect();
             String query = "SELECT menuName,menuPrice,menuCategory,menuImage  FROM menu WHERE menuCategory = '"+currentTab+"'";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
 
@@ -372,7 +408,7 @@ public class CashierMainController implements Initializable {
                             orders.add(orderModel);
                             populateOrderTable();
                             calculate(computedPrice,true);
-
+                            checkOrderEmpty();
                             preparedStatement.close();
 
                         }catch (Exception e) {
@@ -424,9 +460,39 @@ public class CashierMainController implements Initializable {
         orderQty.setCellValueFactory(new PropertyValueFactory<Order, Spinner>("qty"));
         orderPrice.setCellValueFactory(new PropertyValueFactory<Order, Double>("price"));
         orderTotal.setCellValueFactory(new PropertyValueFactory<Order, Double>("computedPrice"));
+    }
 
+    private void checkOrderEmpty(){
+        ObservableList<Order> items = orderTable.getItems();
 
+        if(items.isEmpty()){
+            payBtn.setDisable(true);
+        }else{
+            payBtn.setDisable(false);
+        }
+    }
 
+    private void displayNameBar(){
+        try{
+            String query = "SELECT * FROM employee WHERE employeeID = '"+LoginController.currentUserID+"' ";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                employeeName.setText(resultSet.getString("firstname")+" "+resultSet.getString("lastname"));
+                InputStream input = resultSet.getBinaryStream("employeeImage");
+
+                if(input != null && input.available() > 1){
+                    Image img = new Image(input);
+                    circleImage.setFill(new ImagePattern(img));
+                }
+            }
+
+            preparedStatement.close();
+
+        } catch (SQLException | IOException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
 
@@ -437,9 +503,12 @@ public class CashierMainController implements Initializable {
         //orderScroll.setStyle("-fx-background: transparent; -fx-background-color: transparent; ");
         loadMenuData();
 
+        displayNameBar();
+
         nameBar.setEffect(new DropShadow(5, Color.GREY));
         populateOrderTable();
         orderTable.setItems(orders);
+        checkOrderEmpty();
 
     }
 

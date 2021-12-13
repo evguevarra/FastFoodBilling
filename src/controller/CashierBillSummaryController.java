@@ -34,7 +34,7 @@ public class CashierBillSummaryController implements Initializable  {
         previousStage.close();
     }
 
-    public void setOrderText(String text,String sTotal, String total,int cash){
+    public void setOrderText(String text,String sTotal, String total,int cash, String name){
 
         double change = cash - Double.parseDouble(total);
 
@@ -45,7 +45,7 @@ public class CashierBillSummaryController implements Initializable  {
         receiptText.setStyle("-fx-text-alignment: center; ");
         receiptText.appendText("\n\t\t\t\t\t\tWelcome to FastFood\n" +
                 "\t===============================================\n"+
-                "\t\tCashier:\n"+
+                "\t\tCashier: "+ name + "\n"+
                 "\t\tDate: "+formattedDateTime+"\n"+
                 "\t===============================================\n\n"+
                 "\t\t"+text+"\n"+
