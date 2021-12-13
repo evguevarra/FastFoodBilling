@@ -3,8 +3,11 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.print.PrinterJob;
+import javafx.scene.Node;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -23,7 +26,12 @@ public class CashierBillSummaryController implements Initializable  {
 
     @FXML
     void handlePrint(ActionEvent event) {
-
+        print(receiptText);
+    }
+    @FXML
+    void handleDone(ActionEvent event) {
+        Stage previousStage = (Stage) receiptText.getScene().getWindow();
+        previousStage.close();
     }
 
     public void setOrderText(String text,String sTotal, String total,int cash){
@@ -50,6 +58,21 @@ public class CashierBillSummaryController implements Initializable  {
                 "\n\t\t\t\t\t\t\tThank You!\n"+
                 "\t\t\t\t\t\tPlease Come Again\n"
         );
+    }
+
+    private void print(Node node){
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if(job != null){
+            System.out.println(job.jobStatusProperty().asString());
+            boolean printed = job.printPage(node);
+            if(printed){
+                job.endJob();
+            }else{
+                System.out.println("Printing Failed");
+            }
+        }else{
+            System.out.println("Could not create printer job");
+        }
     }
 
     @Override

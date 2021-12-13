@@ -5,7 +5,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="644.0" prefWidth="488.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CashierBillSummaryController">
    <children>
       <ScrollPane layoutX="14.0" layoutY="49.0">
@@ -13,6 +12,7 @@
             <TextArea fx:id="receiptText" editable="false" prefHeight="506.0" prefWidth="455.0" styleClass="text" stylesheets="@../values/style.css" wrapText="true" />
          </content>
       </ScrollPane>
-      <JFXButton layoutX="202.0" layoutY="588.0" onAction="#handlePrint" style="-fx-background-color: Orange;" text="Print Receipt" textFill="WHITE" />
+      <JFXButton layoutX="131.0" layoutY="588.0" onAction="#handlePrint" prefWidth="100.0" style="-fx-background-color: Orange;" text="Print Receipt" textFill="WHITE" />
+      <JFXButton layoutX="260.0" layoutY="588.0" onAction="#handleDone" prefWidth="100.0" style="-fx-background-color: Orange;" text="Done" textFill="WHITE" />
    </children>
 </AnchorPane>
