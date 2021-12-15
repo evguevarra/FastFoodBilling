@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SettingsMainController">
+   <children>
+      <BorderPane layoutX="132.0" layoutY="79.0" prefHeight="221.0" prefWidth="253.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" style="-fx-background-color: #D3D3D3;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="accountSettingsBtn" onMouseClicked="#accountClicked" text="Account Settings" textFill="GREY" />
+                  <Label fx:id="aboutBtn" onMouseClicked="#aboutClicked" text="About" textFill="GREY" />
+               </children>
+               <padding>
+                  <Insets top="40.0" />
+               </padding>
+            </VBox>
+         </left>
+         <center>
+            <AnchorPane fx:id="settingsPanel" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
