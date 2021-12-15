@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SettingsAboutController">
+    <children>
+        <Label alignment="CENTER" layoutX="218.0" layoutY="14.0" text="About" textFill="#5e5d5d" AnchorPane.topAnchor="14.0">
+            <font>
+                <Font name="System Bold" size="22.0" />
+            </font>
+        </Label>
+      <Label layoutX="56.0" layoutY="78.0" text="Fast Food System" textFill="ORANGE">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="textInfo" layoutX="52.0" layoutY="115.0" prefHeight="181.0" prefWidth="417.0" text="text info" />
+    </children>
+</AnchorPane>
