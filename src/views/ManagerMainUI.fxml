@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainContainer" minWidth="500.0" prefHeight="700.0" prefWidth="1315.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManagerMainController">
@@ -107,8 +108,9 @@
                                               </Label>
                                           </children>
                                       </VBox>
-                                      <HBox layoutX="828.0" layoutY="9.0" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+                                      <HBox alignment="CENTER" layoutX="828.0" layoutY="9.0" spacing="20.0" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
                                           <children>
+                                    <Circle fx:id="circleImage" fill="#565757" radius="25.0" stroke="WHITE" strokeType="INSIDE" />
                                               <FontAwesomeIconView fill="#8a8484" glyphName="GEAR" size="4.0em" />
                                           </children>
                                       </HBox>

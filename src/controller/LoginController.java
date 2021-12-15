@@ -37,6 +37,8 @@ public class LoginController implements Initializable {
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
 
+    public static String currentUserID;
+
     @FXML
     private JFXRadioButton cashierRB;
 
@@ -104,6 +106,7 @@ public class LoginController implements Initializable {
                 if(resultSet.getInt(1) == 1){
                     loginMessage.setText("");
                     loginSuccess();
+                    currentUserID = usernameField.getText();
                 }else{
                     loginMessage.setText("Login Failed! Wrong username and password");
                 }

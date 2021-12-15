@@ -6,3 +6,5 @@
     -fx-fill: darkcyan;
     -fx-cursor: hand
 }
+
+#text-area *.text { -fx-text-alignment: center; }

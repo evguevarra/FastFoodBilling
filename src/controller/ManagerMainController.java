@@ -13,21 +13,36 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import repositories.DatabaseConnection;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ManagerMainController implements Initializable {
 
     private String currentTab = "menu";
 
+    Connection connection = DatabaseConnection.connect();
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+
     @FXML
     private AnchorPane mainContainer;
 
     @FXML
     private AnchorPane nameBar;
+
+    @FXML
+    private Circle circleImage;
 
     @FXML
     private Pane employeeBtn;
@@ -122,10 +137,34 @@ public class ManagerMainController implements Initializable {
         }
     }
 
+    private void displayNameBar(){
+        try{
+            String query = "SELECT * FROM employee WHERE employeeID = '"+LoginController.currentUserID+"' ";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                employeeName.setText(resultSet.getString("firstname")+" "+resultSet.getString("lastname"));
+                InputStream input = resultSet.getBinaryStream("employeeImage");
+
+                if(input != null && input.available() > 1){
+                    Image img = new Image(input);
+                    circleImage.setFill(new ImagePattern(img));
+                }
+            }
+
+            preparedStatement.close();
+
+        } catch (SQLException | IOException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         loadIndicator();
+        displayNameBar();
         loadUI("ManagerMenuUi.fxml");
         nameBar.setEffect(new DropShadow(5, Color.GREY));
     }
