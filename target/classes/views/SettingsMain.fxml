@@ -13,7 +13,7 @@
          <left>
             <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" style="-fx-background-color: #D3D3D3;" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="accountSettingsBtn" onMouseClicked="#accountClicked" text="Account Settings" textFill="GREY" />
+                  <Label fx:id="accountSettingsBtn" onMouseClicked="#accountClicked" text="Account Settings" textFill="ORANGE" />
                   <Label fx:id="aboutBtn" onMouseClicked="#aboutClicked" text="About" textFill="GREY" />
                </children>
                <padding>

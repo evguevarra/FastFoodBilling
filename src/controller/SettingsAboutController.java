@@ -14,12 +14,12 @@ public class SettingsAboutController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        textInfo.setText("Fast Food System is a software that helps in order taking \n and billing transactions." +
-                "\n\n\tDevelopers:\n" +
+        textInfo.setText("Fast Food System is a software that helps in order taking \nand billing transactions." +
+                "\n\nDevelopers:\n\n" +
                 "\tEdison Guevarra\n" +
                 "\tJasmin Timban\n" +
                 "\tCarlo Ciasico\n" +
-                "\tRussel Guiterrez\n" +
+                "\tRussel Gutierrez\n" +
                 "\tJom Ramirez\n" +
                 "\tReidrickx Yumang\n");
     }
