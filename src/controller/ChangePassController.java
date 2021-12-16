@@ -79,7 +79,7 @@ public class ChangePassController implements Initializable {
             }
 
             preparedStatement.close();
-            System.out.println(password);
+
 
 
 
