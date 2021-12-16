@@ -224,6 +224,7 @@ public class CashierMainController implements Initializable {
         checkOrderEmpty();
     }
 
+
     @FXML
     void clearEntered(MouseEvent event) {
         clearBtn.setTextFill(Color.GREY);
@@ -299,6 +300,26 @@ public class CashierMainController implements Initializable {
                 alert.setContentText("Insufficient Cash!");
                 alert.showAndWait();
             }
+        }
+    }
+
+    @FXML
+    void handleSettings(MouseEvent event) {
+        Parent root = null;
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/SettingsMain.fxml"));
+            root = fxmlLoader.load();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Settings");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+            stage.centerOnScreen();
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
     }
 
