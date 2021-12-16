@@ -35,16 +35,10 @@ public class ManagerReportsController implements Initializable {
     private TableColumn<Sales, String> dateColumn;
 
     @FXML
-    private DatePicker fromDate;
-
-    @FXML
     private LineChart lineChart;
 
     @FXML
     private TableView<Sales> salesTable;
-
-    @FXML
-    private DatePicker toDate;
 
     @FXML
     private TableColumn<Sales, Double> totalColumn;
@@ -78,30 +72,6 @@ public class ManagerReportsController implements Initializable {
 
     }
 
-    @FXML
-    void handleGenerate(ActionEvent event) {
-
-
-
-//        series.getData().add(new XYChart.Data("Feb",20));
-//        series.getData().add(new XYChart.Data("March",15));
-//        series.getData().add(new XYChart.Data("April",18));
-//        series.getData().add(new XYChart.Data("May",16));
-//        series.getData().add(new XYChart.Data("June",23));
-//        series.getData().add(new XYChart.Data("July",15));
-//        series.getData().add(new XYChart.Data("Aug",19));
-//        series.getData().add(new XYChart.Data("Sep",21));
-//        series.getData().add(new XYChart.Data("Oct",24));
-//        series.getData().add(new XYChart.Data("Nov",20));
-//        series.getData().add(new XYChart.Data("Dec",25));
-
-
-    }
-
-    @FXML
-    void handleReset(ActionEvent event) {
-
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -249,6 +249,7 @@ public class CashierMainController implements Initializable {
             int cashTethered = Integer.parseInt(result.get());
             System.out.println(cashTethered);
 
+
             if(cashTethered > Double.parseDouble(totalValue.getText())) {
                 Parent root = null;
                 String orderText = "";
@@ -280,6 +281,26 @@ public class CashierMainController implements Initializable {
                     }
                     cController.setOrderText(orderText, subtotalValue.getText(), totalValue.getText(), cashTethered, employeeName.getText());
                     System.out.println(orderText);
+                    System.out.println(java.time.LocalDate.now());
+
+
+                    try{
+
+                        String query = "SELECT count(1)  FROM sales WHERE date = '"+String.valueOf(java.time.LocalDate.now())+"'";
+                        preparedStatement = connection.prepareStatement(query);
+                        resultSet = preparedStatement.executeQuery();
+
+                        while(resultSet.next()){
+                            if(resultSet.getInt(1) == 1){
+                                updateSales();
+                            }else{
+                                insertToSales();
+                            }
+                        }
+                        preparedStatement.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
 
 
                     Scene scene = new Scene(root);
@@ -320,6 +341,43 @@ public class CashierMainController implements Initializable {
             stage.centerOnScreen();
         } catch (IOException exception) {
             exception.printStackTrace();
+        }
+    }
+    public void updateSales(){
+        double salesValue = 0;
+
+        try {
+            String query = "SELECT *  FROM sales WHERE date = '" + String.valueOf(java.time.LocalDate.now()) + "'";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                salesValue = resultSet.getDouble("totalSales");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        
+        try{
+            double updatedValue = salesValue + Double.parseDouble(totalValue.getText());
+            String sql = "UPDATE sales SET totalSales = '"+updatedValue+"' WHERE date = '" + String.valueOf(java.time.LocalDate.now()) + "'";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void insertToSales(){
+        try{
+            String sql = "INSERT INTO sales(date,totalSales) VALUES(?,?)";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,String.valueOf(java.time.LocalDate.now()));
+            preparedStatement.setDouble(2, Double.parseDouble(totalValue.getText()));
+            preparedStatement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
