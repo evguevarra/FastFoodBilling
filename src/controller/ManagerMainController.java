@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -15,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import repositories.DatabaseConnection;
 
@@ -108,6 +110,25 @@ public class ManagerMainController implements Initializable {
         Stage stage = (Stage) logoutBtn.getScene().getWindow();
         stage.close();
         System.exit(0);
+    }
+    @FXML
+    void handleSettings(MouseEvent event) {
+        Parent root = null;
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/SettingsMain.fxml"));
+            root = fxmlLoader.load();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Settings");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+            stage.centerOnScreen();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     public void loadUI(String ui){

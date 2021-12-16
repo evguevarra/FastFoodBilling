@@ -33,11 +33,11 @@
                         <Insets left="120.0" />
                      </padding>
                   </Label>
-                  <Label text="Label" GridPane.columnIndex="1" />
-                  <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="fnameValue" text="Label" GridPane.columnIndex="1" />
+                  <Label fx:id="lnameValue" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-            <Label text="Change Password" textFill="ORANGE">
+            <Label fx:id="changeBtn" onMouseClicked="#handleChangePass" text="Change Password" textFill="ORANGE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
