@@ -97,7 +97,7 @@ public class ManagerEmployeeAddController implements Initializable {
 
         if(file != null){
             employeeImage.setImage(new Image(file.toURI().toString()));
-            webcam.close();
+            //webcam.close();
         }else{
             System.out.println("A file is invalid");
         }
