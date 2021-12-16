@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,6 +33,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.App;
 import main.MyListener;
 import model.Menu;
 import model.Order;
@@ -54,6 +56,8 @@ public class CashierMainController implements Initializable {
     Connection connection = DatabaseConnection.connect();
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
+
+    double xOffset, yOffset;
 
     @FXML
     private AnchorPane mainContainer;
@@ -192,8 +196,43 @@ public class CashierMainController implements Initializable {
 
     @FXML
     void handleLogoutBtn(MouseEvent event) {
-        Stage stage = (Stage) logoutBtn.getScene().getWindow();
-        stage.close();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to Logout?",
+                ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if(alert.getResult() == ButtonType.YES){
+            Parent root;
+            try {
+                root = FXMLLoader.load(App.class.getResource("/views/LoginUI.fxml"));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.initStyle(StageStyle.TRANSPARENT);
+                scene.setFill(Color.TRANSPARENT);
+                stage.setScene(scene);
+                stage.show();
+                root.setOnMousePressed(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        xOffset = mouseEvent.getSceneX();
+                        yOffset = mouseEvent.getSceneY();
+                    }
+                });
+                root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        stage.setX(mouseEvent.getScreenX() - xOffset);
+                        stage.setY(mouseEvent.getScreenY() - yOffset);
+                    }
+                });
+
+                Stage currentStage = (Stage) logoutBtn.getScene().getWindow();
+                currentStage.close();
+                //System.exit(0);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+
+        }
     }
 
     @FXML
@@ -249,6 +288,7 @@ public class CashierMainController implements Initializable {
             int cashTethered = Integer.parseInt(result.get());
             System.out.println(cashTethered);
 
+
             if(cashTethered > Double.parseDouble(totalValue.getText())) {
                 Parent root = null;
                 String orderText = "";
@@ -280,6 +320,26 @@ public class CashierMainController implements Initializable {
                     }
                     cController.setOrderText(orderText, subtotalValue.getText(), totalValue.getText(), cashTethered, employeeName.getText());
                     System.out.println(orderText);
+                    System.out.println(java.time.LocalDate.now());
+
+
+                    try{
+
+                        String query = "SELECT count(1)  FROM sales WHERE date = '"+String.valueOf(java.time.LocalDate.now())+"'";
+                        preparedStatement = connection.prepareStatement(query);
+                        resultSet = preparedStatement.executeQuery();
+
+                        while(resultSet.next()){
+                            if(resultSet.getInt(1) == 1){
+                                updateSales();
+                            }else{
+                                insertToSales();
+                            }
+                        }
+                        preparedStatement.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
 
 
                     Scene scene = new Scene(root);
@@ -320,6 +380,43 @@ public class CashierMainController implements Initializable {
             stage.centerOnScreen();
         } catch (IOException exception) {
             exception.printStackTrace();
+        }
+    }
+    public void updateSales(){
+        double salesValue = 0;
+
+        try {
+            String query = "SELECT *  FROM sales WHERE date = '" + String.valueOf(java.time.LocalDate.now()) + "'";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                salesValue = resultSet.getDouble("totalSales");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        
+        try{
+            double updatedValue = salesValue + Double.parseDouble(totalValue.getText());
+            String sql = "UPDATE sales SET totalSales = '"+updatedValue+"' WHERE date = '" + String.valueOf(java.time.LocalDate.now()) + "'";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void insertToSales(){
+        try{
+            String sql = "INSERT INTO sales(date,totalSales) VALUES(?,?)";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,String.valueOf(java.time.LocalDate.now()));
+            preparedStatement.setDouble(2, Double.parseDouble(totalValue.getText()));
+            preparedStatement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -521,7 +618,6 @@ public class CashierMainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         loadIndicator();
-        //orderScroll.setStyle("-fx-background: transparent; -fx-background-color: transparent; ");
         loadMenuData();
 
         displayNameBar();

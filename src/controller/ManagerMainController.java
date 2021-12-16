@@ -1,11 +1,14 @@
 package controller;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -18,6 +21,8 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import main.App;
 import repositories.DatabaseConnection;
 
 import java.io.IOException;
@@ -32,13 +37,11 @@ import java.util.ResourceBundle;
 public class ManagerMainController implements Initializable {
 
     private String currentTab = "menu";
+    double xOffset, yOffset;
 
     Connection connection = DatabaseConnection.connect();
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
-
-    @FXML
-    private AnchorPane mainContainer;
 
     @FXML
     private AnchorPane nameBar;
@@ -46,11 +49,6 @@ public class ManagerMainController implements Initializable {
     @FXML
     private Circle circleImage;
 
-    @FXML
-    private Pane employeeBtn;
-
-    @FXML
-    private ImageView employeeIconImage;
 
     @FXML
     private Pane employeeIndicator;
@@ -58,20 +56,9 @@ public class ManagerMainController implements Initializable {
     @FXML
     private Label employeeName;
 
-    @FXML
-    private ImageView foodIconImage;
-
-    @FXML
-    private Pane menuBtn;
 
     @FXML
     private Pane menuIndicator;
-
-    @FXML
-    private Pane reportBtn;
-
-    @FXML
-    private ImageView reportIconImage;
 
     @FXML
     private Pane reportIndicator;
@@ -107,9 +94,45 @@ public class ManagerMainController implements Initializable {
 
     @FXML
     void handleLogoutBtn(MouseEvent event) {
-        Stage stage = (Stage) logoutBtn.getScene().getWindow();
-        stage.close();
-        System.exit(0);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to Logout?",
+                ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if(alert.getResult() == ButtonType.YES){
+            Parent root;
+            try {
+                root = FXMLLoader.load(App.class.getResource("/views/LoginUI.fxml"));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.initStyle(StageStyle.TRANSPARENT);
+                scene.setFill(Color.TRANSPARENT);
+                stage.setScene(scene);
+                stage.show();
+                root.setOnMousePressed(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        xOffset = mouseEvent.getSceneX();
+                        yOffset = mouseEvent.getSceneY();
+                    }
+                });
+                root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        stage.setX(mouseEvent.getScreenX() - xOffset);
+                        stage.setY(mouseEvent.getScreenY() - yOffset);
+                    }
+                });
+
+                Stage currentStage = (Stage) logoutBtn.getScene().getWindow();
+                currentStage.close();
+                //System.exit(0);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+
+        }
+
     }
     @FXML
     void handleSettings(MouseEvent event) {

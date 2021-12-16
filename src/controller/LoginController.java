@@ -129,7 +129,6 @@ public class LoginController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/views/LoginLoadingUI.fxml"));
         Parent root = fxmlLoader.load();
-        //Parent root = FXMLLoader.load(LoginController.class.getResource("/views/LoginLoadingUI.fxml"));
 
         LoginLoadingController loadingController = fxmlLoader.getController();
         loadingController.setEmployeePosition(empPosition);

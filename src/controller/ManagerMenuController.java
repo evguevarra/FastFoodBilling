@@ -253,7 +253,6 @@ public class ManagerMenuController implements Initializable {
             ManagerMenuEditController menuEditController = fxmlLoader.getController();
             menuEditController.nameField.setText(nameLabel.getText());
             menuEditController.priceField.setText(priceLabel.getText());
-            //menuEditController.mID = menuIDLabel.getText();
 
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(dialogPane);

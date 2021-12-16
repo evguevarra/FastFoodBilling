@@ -15,6 +15,7 @@ public class SettingsAboutController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         textInfo.setText("Fast Food System is a software that helps in order taking \nand billing transactions." +
+                "This software is developed for \nSoftware Engineering 2 course of the developers." +
                 "\n\nDevelopers:\n\n" +
                 "\tEdison Guevarra\n" +
                 "\tJasmin Timban\n" +

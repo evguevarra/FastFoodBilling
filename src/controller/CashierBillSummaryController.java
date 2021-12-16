@@ -62,7 +62,7 @@ public class CashierBillSummaryController implements Initializable  {
 
     private void print(Node node){
         PrinterJob job = PrinterJob.createPrinterJob();
-        if(job != null){
+        if(job != null && job.showPrintDialog(node.getScene().getWindow())){
             System.out.println(job.jobStatusProperty().asString());
             boolean printed = job.printPage(node);
             if(printed){
@@ -77,15 +77,7 @@ public class CashierBillSummaryController implements Initializable  {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //setOrderText(orderText);
-//        receiptText.setStyle("-fx-text-alignment: center; ");
-//        receiptText.appendText("\n\t\t\t\t\t\tWelcome to FastFood\n" +
-//                "\t===============================================\n"+
-//                "\t\tCashier:\n"+
-//                "\t\tDate:\n"+
-//                "\t===============================================\n"+
-//                "\t\t"+orderText+"\n"+
-//                "\t===============================================\n");
+
     }
 
 
